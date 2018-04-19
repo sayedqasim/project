@@ -1,0 +1,9 @@
+<?php
+    session_start();
+    session_destroy();
+    unset($_SESSION['email']);
+    unset($_SESSION['usertype']);
+    $htmlpath='/project/';
+    header('Location:'.$htmlpath.'index.php');
+    die();
+?>
