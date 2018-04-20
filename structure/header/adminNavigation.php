@@ -9,8 +9,8 @@
           <?php
                 require($phppath.'callable/generateNavElements.php');
                 $arrayOfElements= array(
-                    'Manager Management' => 'callable/admin/branchview.php',
-                    'Restaurant Management' => 'callable/admin/itemview.php',
+                    'Manager Management' => 'callable/admin/managerview.php',
+                    'Restaurant Management' => 'callable/admin/restaurantview.php',
                     'Contact Us' => 'callable/contactus.php',
                     'Edit Profile' => 'callable/editprofile.php',
                     'Logout' => 'callable/logout.php',

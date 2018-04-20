@@ -12,7 +12,7 @@
             $prepq=$db->prepare("SELECT * FROM users WHERE email=?");
             $prepq->execute(array($_SESSION['email']));
             $db=null;
-            $rowq=$prepq->fetch();
+            $rowq=$prepq->fetch(PDO::FETCH_ASSOC);
         }
         catch (PDOException $e) {
             echo "Error occured!";

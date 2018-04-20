@@ -9,7 +9,7 @@
             $prep=$db->prepare("SELECT * FROM users WHERE email=? AND password=MD5(?)");
             $prep->execute(array($email, $password));
             $db=null;
-            if ($row=$prep->fetch()) {
+            if ($row=$prep->fetch(PDO::FETCH_ASSOC)) {
                 $_SESSION['email']=$row['email'];
                 $_SESSION['usertype']=$row['usertype'];
                 header('Location:'.$htmlpath.'index.php');
