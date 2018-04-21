@@ -3,17 +3,16 @@
 
 <?php
 extract($_POST);
-print_r($_POST);
-die();
+if (isset($managerid)) {
+    $_SESSION['managerid']=$managerid;
+}
     if (!isset($_SESSION['email']) || !$_SESSION['usertype']=='admin') {
-        header('location:login.php');
-        die();
+        die("Unauthorized access, you must be an admin to use this page.");
     }
-
     try {
         require($phppath.'callable/connection.php');
         $prepq=$db->prepare("SELECT * FROM users WHERE userid=?");
-        $prepq->execute(array($_POST['mid']));
+        $prepq->execute(array($_SESSION['managerid']));
         $db=null;
         $rowq=$prepq->fetch(PDO::FETCH_ASSOC);
     }
@@ -59,7 +58,7 @@ die();
           || ($_FILES["file"]["type"] == "image/pjpeg")
           || ($_FILES["file"]["type"] == "image/x-png")
           || ($_FILES["file"]["type"] == "image/png"))
-          && ($_FILES["file"]["size"] < 100000)
+          && ($_FILES["file"]["size"] < 1000000000)
           && in_array($extension, $allowedExts))
             {
             if ($_FILES["file"]["error"] > 0)
@@ -77,7 +76,7 @@ die();
                         require($phppath.'callable/connection.php');
                         $prepu=$db->prepare("UPDATE users SET profilepicture=? WHERE userid=?");
                         $prepu->execute(array("upi/".$newfilename, $rowq['userid']));
-                        $rowq['profilepicture']="upi/".$rowq['userid'].".png";
+                        $rowq['profilepicture']="upi/".$newfilename;
                         $db=null;
                     }
                     catch (PDOException $e) {
@@ -120,13 +119,13 @@ die();
 <!-- Profile Form -->
 <div class="container">
     <!-- Page Heading/Breadcrumbs -->
-<h1 class="mt-4 mb-3">Edit Profile</h1>
+<h1 class="mt-4 mb-3">Edit Manager</h1>
 
 <ol class="breadcrumb">
   <li class="breadcrumb-item">
     <a href="<?php echo $htmlpath.'index.php';?>">Home</a>
   </li>
-  <li class="breadcrumb-item active">Edit Profile</li>
+  <li class="breadcrumb-item active">Edit Manager</li>
 </ol>
 
 

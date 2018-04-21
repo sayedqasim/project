@@ -23,14 +23,14 @@
     </li>
         <li class="breadcrumb-item active">Manager Management</li>
     </ol>
-    <div style="text-align:left;">
-        <a href="<?php echo $htmlpath.'callable/admin/addmanager.php' ?>" ><button style="width:20%;" class="btn btn-primary">Add Manager</button></a>
+    <div style="text-align:center;">
+        <a href="<?php echo $htmlpath.'callable/admin/addmanager.php' ?>" ><button style="width:75%;" class="btn btn-primary">Add Manager</button></a>
     </div>
     <hr/>
     <div style="text-align:center;">
         <form method="post">
             <input type="text" style="width:64%;" placeholder="Search Managers.." name="searchparameter">
-            <button type="submit" style="width:10%;" class="btn btn-primary btn-xs">Go</button></a>
+            <button type="submit" style="width:10%;" class="btn btn-primary">Go</button></a>
         </form>
     </div>
     <?php
@@ -62,10 +62,9 @@
                         </table>
                     </div>
                     <div style='text-align:center;' class='col-md-2' >
-                        <form method='POST'>
-                            <input type='hidden' name='mid' value="<?php echo $row['userid'] ?>">
-                            <button style="margin-top:5px;" formaction="<?php echo $htmlpath.'callable/admin/editmanager.php' ?>" class='btn btn-primary' value="<?php echo $row['userid'] ?>" type='submit' name='edit'>Edit</button>
-                            <button style="margin-top:5px;" formaction="<?php echo $htmlpath.'callable/admin/deletemanager.php' ?>" class='btn btn-primary' value="<?php echo $row['userid'] ?>" type='submit' name='delete'>Delete</button>
+                        <form>
+                            <button style="margin-top:5px;" formmethod="POST" formaction="<?php echo $htmlpath.'callable/admin/editmanager.php' ?>" class='btn btn-primary' type='submit' name='managerid' value="<?php echo $row['userid'] ?>">Edit</button>
+                            <button style="margin-top:5px;" formmethod="POST" formaction="<?php echo $htmlpath.'callable/admin/deletemanager.php' ?>" class='btn btn-primary' type='submit' name='managerid' value="<?php echo $row['userid'] ?>">Delete</button>
                         </form>
                     </div>
                 </div>
@@ -95,17 +94,16 @@
                         <img style='margin: auto;' class='img-fluid rounded mb-3 mb-md-0' width='100' height='100' src="<?php echo $htmlpath.$row['profilepicture']; ?>" alt=''>
                     </div>
                     <div class='col-md-8' >
-                        <table >
+                        <table>
                             <tr><td><b>Name:</b></td><td><?php echo $row['name']; ?></td></tr>
                             <tr><td><b>Email:</b></td><td><?php echo $row['email']; ?></td></tr>
                             <tr><td><b>Phone:</b></td><td><?php echo $row['phone']; ?></td></tr>
                         </table>
                     </div>
                     <div style='text-align:center;' class='col-md-2' >
-                        <form method='POST'>
-                            <input type='hidden' value='$uid' ?>
-                            <button style="margin-top:5px;" formaction="<?php echo $htmlpath.'callable/admin/editmanager.php' ?>" class='btn btn-primary' type='submit' name='edit'>Edit</button>
-                            <button style="margin-top:5px;" formaction="<?php echo $htmlpath.'callable/admin/deletemanager.php' ?>" class='btn btn-primary' type='submit' name='delete'>Delete</button>
+                        <form>
+                            <button style="margin-top:5px;" formmethod="POST" formaction="<?php echo $htmlpath.'callable/admin/editmanager.php' ?>" class='btn btn-primary' type='submit' name='managerid' value="<?php echo $row['userid'] ?>">Edit</button>
+                            <button style="margin-top:5px;" formmethod="POST" formaction="<?php echo $htmlpath.'callable/admin/deletemanager.php' ?>" class='btn btn-primary' type='submit' name='managerid' value="<?php echo $row['userid'] ?>">Delete</button>
                         </form>
                     </div>
                 </div>
@@ -116,7 +114,7 @@
             ?>
             <div style="text-align:center;">
                 <form method="post">
-                    <button type="submit" style="width:25%;" class="btn btn-primary" name="viewall">View All Managers</button>
+                    <button type="submit" style="width:75%;" class="btn btn-primary" name="viewall">View All Managers</button>
                 </form>
             </div>
             <br/>

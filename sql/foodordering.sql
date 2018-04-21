@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.0
+-- version 4.7.9
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 18, 2018 at 08:58 AM
+-- Generation Time: Apr 21, 2018 at 12:28 PM
 -- Server version: 10.1.31-MariaDB
--- PHP Version: 7.2.4
+-- PHP Version: 7.2.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -126,7 +126,8 @@ INSERT INTO `users` (`userid`, `name`, `email`, `password`, `phone`, `profilepic
 (4, 'root', 'root@root.com', 'f11536bee899541aa233f5c0aa98f625', '0097369998888', 'upi/default.png', 'admin'),
 (5, 'admin', 'admin@admin.com', '25e4ee4e9229397b6b17776bfceaf8e7', '0097369998888', 'upi/default.png', 'admin'),
 (6, 'manager', 'manager@manager.com', '3fd7488b6fd40f33c5a8e857b6a944aa', '0097369997777', 'upi/default.png', 'manager'),
-(7, 'customer', 'customer@customer.com', '0a1a1c22b9cdf22c736a6f5f5b4a4f01', '0097369996666', 'upi/default.png', 'customer');
+(7, 'customer', 'customer@customer.com', '0a1a1c22b9cdf22c736a6f5f5b4a4f01', '0097369996666', 'upi/default.png', 'customer'),
+(8, 'Ahmed Ali', 'ahmedali@email.com', 'a050d36a8e5dcaedc99dbb775c7790e2', '64646464', 'upi/default.png', 'manager');
 
 --
 -- Indexes for dumped tables
@@ -165,7 +166,8 @@ ALTER TABLE `orders`
 -- Indexes for table `restaurants`
 --
 ALTER TABLE `restaurants`
-  ADD PRIMARY KEY (`restaurantid`);
+  ADD PRIMARY KEY (`restaurantid`),
+  ADD UNIQUE KEY `name` (`name`);
 
 --
 -- Indexes for table `useraddresses`
@@ -212,7 +214,7 @@ ALTER TABLE `restaurants`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Constraints for dumped tables

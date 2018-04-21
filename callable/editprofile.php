@@ -56,7 +56,7 @@
               || ($_FILES["file"]["type"] == "image/pjpeg")
               || ($_FILES["file"]["type"] == "image/x-png")
               || ($_FILES["file"]["type"] == "image/png"))
-              && ($_FILES["file"]["size"] < 100000)
+              && ($_FILES["file"]["size"] < 1000000000)
               && in_array($extension, $allowedExts))
                 {
                 if ($_FILES["file"]["error"] > 0)
@@ -74,7 +74,7 @@
                             require($phppath.'callable/connection.php');
                             $prepu=$db->prepare("UPDATE users SET profilepicture=? WHERE userid=?");
                             $prepu->execute(array("upi/".$newfilename, $rowq['userid']));
-                            $rowq['profilepicture']="upi/".$rowq['userid'].".png";
+                            $rowq['profilepicture']="upi/".$newfilename;
                             $db=null;
                         }
                         catch (PDOException $e) {
@@ -171,7 +171,7 @@
               <input value='<?php echo $rowq['phone']; ?>' type="tel" class="form-control" id="phone" name="phone" required data-validation-required-message="Please enter your phone number.">
             </div>
           </div>
-          
+
           <div style="text-align:center;">
               <button style="width:75%;" type="submit" class="btn btn-primary" name="update" id="update">Update</button>
           </div>
