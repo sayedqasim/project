@@ -104,7 +104,7 @@
                     <input value='<?php echo $phone; ?>' type="tel" class="form-control" id="phone" name="phone" required data-validation-required-message="Please enter your phone number.">
                   </div>
                 </div>
-                <!-- For success/fail messages -->
+                
                 <div style="text-align:center;">
                     <button style="width:75%;" type="submit" class="btn btn-primary" name="register" id="register">Register</button>
                 </div>

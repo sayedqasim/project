@@ -73,7 +73,6 @@
                     <input value='<?php echo $password; ?>' type="password" class="form-control" id="password" name="password" required data-validation-required-message="Please enter your password.">
                   </div>
                 </div>
-                <!-- For success/fail messages -->
                 <div style="text-align:center;">
                     <button style="width:75%;" type="submit" class="btn btn-primary" name="login" id="login">Login</button>
                 </div>
