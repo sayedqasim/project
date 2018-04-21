@@ -23,8 +23,8 @@
     </li>
         <li class="breadcrumb-item active">Manager Management</li>
     </ol>
-    <div style="text-align:left;">
-        <a href="<?php echo $htmlpath.'callable/admin/addmanager.php' ?>" ><button style="width:20%;" class="btn btn-primary">Add Manager</button></a>
+    <div style="text-align:center;">
+        <a href="<?php echo $htmlpath.'callable/admin/addmanager.php' ?>" ><button style="width:75%;" class="btn btn-primary">Add Manager</button></a>
     </div>
     <hr/>
     <div style="text-align:center;">
@@ -55,7 +55,7 @@
                         <img style='margin: auto;' class='img-fluid rounded mb-3 mb-md-0' width='100' height='100' src="<?php echo $htmlpath.$row['profilepicture']; ?>" alt=''>
                     </div>
                     <div class='col-md-8' >
-                        <table >
+                        <table style='margin: auto;'>
                             <tr><td><b>Name:</b></td><td><?php echo $row['name']; ?></td></tr>
                             <tr><td><b>Email:</b></td><td><?php echo $row['email']; ?></td></tr>
                             <tr><td><b>Phone:</b></td><td><?php echo $row['phone']; ?></td></tr>
@@ -95,7 +95,7 @@
                         <img style='margin: auto;' class='img-fluid rounded mb-3 mb-md-0' width='100' height='100' src="<?php echo $htmlpath.$row['profilepicture']; ?>" alt=''>
                     </div>
                     <div class='col-md-8' >
-                        <table >
+                        <table style='margin: auto;'>
                             <tr><td><b>Name:</b></td><td><?php echo $row['name']; ?></td></tr>
                             <tr><td><b>Email:</b></td><td><?php echo $row['email']; ?></td></tr>
                             <tr><td><b>Phone:</b></td><td><?php echo $row['phone']; ?></td></tr>
@@ -116,7 +116,7 @@
             ?>
             <div style="text-align:center;">
                 <form method="post">
-                    <button type="submit" style="width:25%;" class="btn btn-primary" name="viewall">View All Managers</button>
+                    <button type="submit" style="width:75%;" class="btn btn-primary" name="viewall">View All Managers</button>
                 </form>
             </div>
             <br/>
