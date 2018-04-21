@@ -9,7 +9,7 @@
           <?php
                 require($phppath.'callable/generateNavElements.php');
                 $arrayOfElements= array(
-                    'History' => 'callable/customer/pastOrders.php',
+                    'Past Orders' => 'callable/customer/pastOrders.php',
                     'Browse Restaurants' => 'callable/customer/browseRestaurants.php',
                     'Cart' => 'callable/customer/viewCart.php',
                     'Contact Us' => 'callable/contactus.php',

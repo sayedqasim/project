@@ -27,20 +27,28 @@
         <a href="<?php echo $htmlpath.'callable/admin/addmanager.php' ?>" ><button style="width:75%;" class="btn btn-primary">Add Manager</button></a>
     </div>
     <hr/>
+    <div style="text-align:center;">
+        <form method="post">
+            <input type="text" style="width:64%;" placeholder="Search Managers.." name="searchparameter">
+            <button type="submit" style="width:10%;" class="btn btn-primary btn-xs">Go</button></a>
+        </form>
+    </div>
     <?php
         extract($_POST);
         if (isset($searchparameter)) {
             try {
                 require($phppath.'callable/connection.php');
-                $prepq=$db->prepare("SELECT * FROM users WHERE usertype='manager' AND name=? OR email=? OR phone=?");
-                $prepq->execute(array('%$searchparameter%','%$searchparameter%','%$searchparameter%'));
+                $prepq=$db->prepare("SELECT * FROM users WHERE name LIKE ? OR email like ? OR phone LIKE ?");
+                $prepq->execute(array("%$searchparameter%","%$searchparameter%","%$searchparameter%"));
                 $db=null;
                 $rowq=$prepq->fetchAll(PDO::FETCH_ASSOC);
             } catch (PDOException $e) {
                 echo "Error occured!";
                 die($e->getMessage());
             }
+
             foreach ($rowq as $row) {
+              if ($row['usertype']=='manager') {
                 ?>
                 <div class='row' >
                     <div style='text-align:center;' class='col-md-2' >
@@ -55,25 +63,16 @@
                     </div>
                     <div style='text-align:center;' class='col-md-2' >
                         <form method='POST'>
-                            <input type='hidden' value='$uid' ?>
-                            <button style="margin-top:5px;" formaction="<?php echo $htmlpath.'callable/admin/editmanager.php' ?>" class='btn btn-primary' type='submit' name='edit'>Edit</button>
-                            <button style="margin-top:5px;" formaction="<?php echo $htmlpath.'callable/admin/deletemanager.php' ?>" class='btn btn-primary' type='submit' name='delete'>Delete</button>
+                            <input type='hidden' name='mid' value="<?php echo $row['userid'] ?>">
+                            <button style="margin-top:5px;" formaction="<?php echo $htmlpath.'callable/admin/editmanager.php' ?>" class='btn btn-primary' value="<?php echo $row['userid'] ?>" type='submit' name='edit'>Edit</button>
+                            <button style="margin-top:5px;" formaction="<?php echo $htmlpath.'callable/admin/deletemanager.php' ?>" class='btn btn-primary' value="<?php echo $row['userid'] ?>" type='submit' name='delete'>Delete</button>
                         </form>
                     </div>
                 </div>
                 <br/>
     <?php
             }
-        }
-        else {
-            ?>
-            <div style="text-align:center;">
-                <form method="post">
-                    <input type="text" style="width:64%;" placeholder="Search Managers.." name="searchparameter">
-                    <button type="submit" style="width:10%;" class="btn btn-primary btn-xs">Go</button></a>
-                </form>
-            </div>
-        <?php
+          }
         }
         ?>
     <hr/>
