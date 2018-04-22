@@ -2,12 +2,10 @@
 <?php require('C:\xampp\htdocs\project\callable\modularRequire.php'); ?>
 
 <?php
-extract($_POST);
-if (isset($managerid)) {
-    $_SESSION['managerid']=$managerid;
-}
-    if (!isset($_SESSION['email']) || !$_SESSION['usertype']=='admin') {
-        die("Unauthorized access, you must be an admin to use this page.");
+    require($phppath."callable/admin/authenticateadmin.php");
+    extract($_POST);
+    if (isset($managerid)) {
+        $_SESSION['managerid']=$managerid;
     }
     try {
         require($phppath.'callable/connection.php');

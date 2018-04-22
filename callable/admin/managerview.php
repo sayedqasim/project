@@ -1,5 +1,6 @@
 <!-- Modular Require -->
 <?php require('C:\xampp\htdocs\project\callable\modularRequire.php'); ?>
+<?php require($phppath."callable/admin/authenticateadmin.php"); ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -15,13 +16,13 @@
 <!-- Page Content -->
 <div class="container">
     <!-- Page Heading/Breadcrumbs -->
-    <h1 class="mt-4 mb-3">Manager Management</h1>
+    <h1 class="mt-4 mb-3">Managers</h1>
 
     <ol class="breadcrumb">
     <li class="breadcrumb-item">
         <a href="<?php echo $htmlpath.'index.php';?>">Home</a>
     </li>
-        <li class="breadcrumb-item active">Manager Management</li>
+        <li class="breadcrumb-item active">Managers</li>
     </ol>
     <div style="text-align:center;">
         <a href="<?php echo $htmlpath.'callable/admin/addmanager.php' ?>" ><button style="width:75%;" class="btn btn-primary">Add Manager</button></a>

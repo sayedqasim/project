@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 21, 2018 at 10:08 PM
+-- Generation Time: Apr 22, 2018 at 03:06 PM
 -- Server version: 10.1.31-MariaDB
 -- PHP Version: 7.2.3
 
@@ -81,6 +81,17 @@ CREATE TABLE `orders` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `restaurantmanagers`
+--
+
+CREATE TABLE `restaurantmanagers` (
+  `restaurantid` int(11) NOT NULL,
+  `managerid` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `restaurants`
 --
 
@@ -123,11 +134,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`userid`, `name`, `email`, `password`, `phone`, `profilepicture`, `usertype`) VALUES
-(4, 'root', 'root@root.com', 'f11536bee899541aa233f5c0aa98f625', '0097369998888', 'upi/default.png', 'admin'),
-(5, 'admin', 'admin@admin.com', '25e4ee4e9229397b6b17776bfceaf8e7', '0097369998888', 'upi/default.png', 'admin'),
-(7, 'customer', 'customer@customer.com', '0a1a1c22b9cdf22c736a6f5f5b4a4f01', '0097369996666', 'upi/default.png', 'customer'),
-(8, 'Ahmed Jassim', 'ahmedjassim@email.com', 'd41d8cd98f00b204e9800998ecf8427e', '64646464', 'upi/default.png', 'manager'),
-(10, 'manager', 'manager@manager.com', '3fd7488b6fd40f33c5a8e857b6a944aa', '66447755', 'upi/default.png', 'manager');
+(1, 'root', 'root@root.com', 'f11536bee899541aa233f5c0aa98f625', '0097369998888', 'upi/default.png', 'admin'),
+(2, 'admin', 'admin@admin.com', '25e4ee4e9229397b6b17776bfceaf8e7', '0097369998888', 'upi/default.png', 'admin'),
+(3, 'manager', 'manager@manager.com', '3fd7488b6fd40f33c5a8e857b6a944aa', '66447755', 'upi/default.png', 'manager'),
+(4, 'customer', 'customer@customer.com', '0a1a1c22b9cdf22c736a6f5f5b4a4f01', '0097369996666', 'upi/default.png', 'customer');
 
 --
 -- Indexes for dumped tables
@@ -163,6 +173,13 @@ ALTER TABLE `orders`
   ADD KEY `customerid` (`userid`);
 
 --
+-- Indexes for table `restaurantmanagers`
+--
+ALTER TABLE `restaurantmanagers`
+  ADD PRIMARY KEY (`restaurantid`,`managerid`),
+  ADD KEY `managerid` (`managerid`);
+
+--
 -- Indexes for table `restaurants`
 --
 ALTER TABLE `restaurants`
@@ -179,8 +196,7 @@ ALTER TABLE `useraddresses`
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`userid`),
-  ADD UNIQUE KEY `email` (`email`);
+  ADD PRIMARY KEY (`userid`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -214,7 +230,7 @@ ALTER TABLE `restaurants`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
@@ -239,6 +255,13 @@ ALTER TABLE `orderitems`
 ALTER TABLE `orders`
   ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`branchid`) REFERENCES `branches` (`branchid`),
   ADD CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`userid`) REFERENCES `users` (`userid`);
+
+--
+-- Constraints for table `restaurantmanagers`
+--
+ALTER TABLE `restaurantmanagers`
+  ADD CONSTRAINT `restaurantmanagers_ibfk_1` FOREIGN KEY (`managerid`) REFERENCES `users` (`userid`),
+  ADD CONSTRAINT `restaurantmanagers_ibfk_2` FOREIGN KEY (`restaurantid`) REFERENCES `restaurants` (`restaurantid`);
 
 --
 -- Constraints for table `useraddresses`

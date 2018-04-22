@@ -2,6 +2,7 @@
 <?php require('C:\xampp\htdocs\project\callable\modularRequire.php'); ?>
 
 <?php
+    require($phppath."callable/admin/authenticateadmin.php");
     extract($_POST);
     $addedsuccessfully="";
     $emailexists="";
