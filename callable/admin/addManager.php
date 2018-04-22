@@ -89,7 +89,7 @@
           <div class="controls">
             <label>Name:</label>
             <input value='<?php echo $name; ?>' type="text" class="form-control" id="name" name="name" required data-validation-required-message="Please enter your name.">
-            <p class="help-block"></p>
+
           </div>
         </div>
         <?php echo "$emailexists"; ?>

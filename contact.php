@@ -78,7 +78,7 @@
               <div class="controls">
                 <label>Full Name:</label>
                 <input type="text" class="form-control" id="name" required data-validation-required-message="Please enter your name.">
-                <p class="help-block"></p>
+                
               </div>
             </div>
             <div class="control-group form-group">

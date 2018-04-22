@@ -5,8 +5,6 @@
     require($phppath."callable/admin/authenticateadmin.php");
     extract($_POST);
     if (isset($managerid)) {
-        $_SESSION['managerid']=$managerid;
-    }
     try {
         require($phppath.'callable/connection.php');
         $prepq=$db->prepare("SELECT * FROM users WHERE userid=?");
@@ -101,6 +99,7 @@
             $rowq['profilepicture']="upi/default.png";
         }
     }
+}
 ?>
 
 <!DOCTYPE html>
@@ -142,7 +141,7 @@
         <div class="controls">
           <label>Name:</label>
           <input value='<?php echo $rowq['name']; ?>' type="text" class="form-control" id="name" name="name" required data-validation-required-message="Please enter your name.">
-          <p class="help-block"></p>
+
         </div>
       </div>
       <div class="control-group form-group">
