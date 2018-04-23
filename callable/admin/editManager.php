@@ -4,7 +4,8 @@
 <?php
     require($phppath."callable/admin/authenticateadmin.php");
     extract($_POST);
-    if (isset($managerid)) {
+    if (isset($managerid))
+        $_SESSION['managerid']=$managerid;
     try {
         require($phppath.'callable/connection.php');
         $prepq=$db->prepare("SELECT * FROM users WHERE userid=?");
@@ -16,6 +17,7 @@
         echo "Error occured!";
         die($e->getMessage());
     }
+
     $pwdontmatch="";
     $invalidphone="";
     if(isset($update)){
@@ -99,7 +101,6 @@
             $rowq['profilepicture']="upi/default.png";
         }
     }
-}
 ?>
 
 <!DOCTYPE html>
@@ -121,6 +122,9 @@
 <ol class="breadcrumb">
   <li class="breadcrumb-item">
     <a href="<?php echo $htmlpath.'index.php';?>">Home</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="<?php echo $htmlpath.'callable/admin/managerview.php';?>">Managers</a>
   </li>
   <li class="breadcrumb-item active">Edit Manager</li>
 </ol>

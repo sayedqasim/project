@@ -76,6 +76,9 @@
     <li class="breadcrumb-item">
       <a href="<?php echo $htmlpath.'index.php';?>">Home</a>
     </li>
+    <li class="breadcrumb-item">
+      <a href="<?php echo $htmlpath.'callable/admin/managerview.php';?>">Managers</a>
+    </li>
     <li class="breadcrumb-item active">Add Manager</li>
   </ol>
 

@@ -53,6 +53,9 @@
   <li class="breadcrumb-item">
     <a href="<?php echo $htmlpath.'index.php';?>">Home</a>
   </li>
+  <li class="breadcrumb-item">
+    <a href="<?php echo $htmlpath.'callable/admin/managerview.php';?>">Managers</a>
+  </li>
   <li class="breadcrumb-item active">Delete Manager</li>
 </ol>
       <div style='color:red; text-align:center; font-size: 12px;'>Are you sure you want to delete <?php echo $row['name']; ?>?</div>
@@ -76,6 +79,7 @@
           </div>
       </div>
   </div>
+  <br/>
 
 <!-- Footer -->
 <?php require($footer); ?>

@@ -105,6 +105,9 @@
     <li class="breadcrumb-item">
       <a href="<?php echo $htmlpath.'index.php';?>">Home</a>
     </li>
+    <li class="breadcrumb-item">
+      <a href="<?php echo $htmlpath.'callable/admin/restaurantview.php';?>">Restaurants</a>
+    </li>
     <li class="breadcrumb-item active">Add Restaurant</li>
   </ol>
 

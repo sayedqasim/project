@@ -34,9 +34,10 @@
             <button type="submit" style="width:10%;" class="btn btn-primary">Go</button></a>
         </form>
     </div>
+    <br/>
     <?php
+        $searchparameter="";
         extract($_POST);
-        if (isset($searchparameter)) {
             try {
                 require($phppath.'callable/connection.php');
                 $prepq=$db->prepare("SELECT * FROM restaurants WHERE name LIKE ? OR description like ?");
@@ -47,78 +48,67 @@
                 echo "Error occured!";
                 die($e->getMessage());
             }
-
             foreach ($rowq as $row) {
         ?>
                 <div class='row' >
                     <div style='text-align:center;' class='col-md-2' >
                         <img style='margin: auto;' class='img-fluid rounded mb-3 mb-md-0' width='100' height='100' src="<?php echo $htmlpath.$row['logo']; ?>" alt=''>
                     </div>
-                    <div class='col-md-8' >
+                    <div class='col-md-5' >
                         <table >
                             <tr><td><b>Name:</b></td><td><?php echo $row['name']; ?></td></tr>
                             <tr><td><b>Description:</b></td><td><?php echo $row['description']; ?></td></tr>
                         </table>
                     </div>
-                    <div style='text-align:center;' class='col-md-2' >
+                    <div style='text-align:center;' class='col-md-5' >
                         <form>
+                            <button style="margin-top:5px;" formmethod="POST" formaction="<?php echo $htmlpath.'callable/admin/appointRestaurant.php' ?>" class='btn btn-primary' type='submit' name='restaurantid' value="<?php echo $row['restaurantid'] ?>">Appoint</button>
                             <button style="margin-top:5px;" formmethod="POST" formaction="<?php echo $htmlpath.'callable/admin/editRestaurant.php' ?>" class='btn btn-primary' type='submit' name='restaurantid' value="<?php echo $row['restaurantid'] ?>">Edit</button>
                             <button style="margin-top:5px;" formmethod="POST" formaction="<?php echo $htmlpath.'callable/admin/deleteRestaurant.php' ?>" class='btn btn-primary' type='submit' name='restaurantid' value="<?php echo $row['restaurantid'] ?>">Delete</button>
                         </form>
                     </div>
                 </div>
-                <br/>
-    <?php
-            }
-          }
-    ?>
-    <hr/>
-    <?php
-        if (isset($viewall)) {
-            try {
-                require($phppath.'callable/connection.php');
-                $prepq=$db->prepare("SELECT * FROM restaurants");
-                $prepq->execute();
-                $db=null;
-                $rowq=$prepq->fetchAll(PDO::FETCH_ASSOC);
-            } catch (PDOException $e) {
-                echo "Error occured!";
-                die($e->getMessage());
-            }
-            foreach ($rowq as $row) {
+                <?php
+                    try {
+                        require($phppath.'callable/connection.php');
+                        $preps=$db->prepare("SELECT * FROM users WHERE userid IN (SELECT managerid FROM restaurantmanagers WHERE restaurantid=?)");
+                        $preps->execute(array($row['restaurantid']));
+                        $db=null;
+                        $rows=$preps->fetchAll(PDO::FETCH_ASSOC);
+                    } catch (PDOException $e) {
+                        echo "Error occured!";
+                        die($e->getMessage());
+                    }
+                    if (count($rows)<=0) {
+                        echo "<div style='color:red; text-align:center; font-size: 12px;'>No restaurants appointed yet.</div>";
+                    }
+                    else {
+                        echo "<div style='color:red; text-align:center; font-size: 12px;'>Is appointed to:</div>";
+                    foreach ($rows as $r) {
                 ?>
-                <div class='row' >
-                    <div style='text-align:center;' class='col-md-2' >
-                        <img style='margin: auto;' class='img-fluid rounded mb-3 mb-md-0' width='100' height='100' src="<?php echo $htmlpath.$row['logo']; ?>" alt=''>
-                    </div>
-                    <div class='col-md-8' >
-                        <table>
-                            <tr><td><b>Name:</b></td><td><?php echo $row['name']; ?></td></tr>
-                            <tr><td><b>Description:</b></td><td><?php echo $row['description']; ?></td></tr>
-                        </table>
-                    </div>
-                    <div style='text-align:center;' class='col-md-2' >
-                        <form>
-                            <button style="margin-top:5px;" formmethod="POST" formaction="<?php echo $htmlpath.'callable/admin/editmanager.php' ?>" class='btn btn-primary' type='submit' name='managerid' value="<?php echo $row['userid'] ?>">Edit</button>
-                            <button style="margin-top:5px;" formmethod="POST" formaction="<?php echo $htmlpath.'callable/admin/deletemanager.php' ?>" class='btn btn-primary' type='submit' name='managerid' value="<?php echo $row['userid'] ?>">Delete</button>
-                        </form>
-                    </div>
-                </div>
-                <br/>
+
+                        <div class='row' >
+                            <div style='text-align:center;' class='col-md-2' >
+                                <img style='margin: auto;' class='img-fluid rounded mb-3 mb-md-0' width='100' height='100' src="<?php echo $htmlpath.$r['profilepicture']; ?>" alt=''>
+                            </div>
+                            <div class='col-md-8' >
+                                <table >
+                                    <tr><td><b>Name:</b></td><td><?php echo $r['name']; ?></td></tr>
+                                    <tr><td><b>Email:</b></td><td><?php echo $r['email']; ?></td></tr>
+                                    <tr><td><b>Phone:</b></td><td><?php echo $r['phone']; ?></td></tr>
+                                </table>
+                            </div>
+                        </div>
+            <?php
+                    }
+                }
+                echo "<hr/>";
+            ?>
     <?php
             }
-        } else {
-            ?>
-            <div style="text-align:center;">
-                <form method="post">
-                    <button type="submit" style="width:75%;" class="btn btn-primary" name="viewall">View All Restaurants</button>
-                </form>
-            </div>
-            <br/>
-    <?php
-        }
     ?>
 </div>
+<br/>
 
 <!-- Footer -->
 <?php require($footer); ?>
