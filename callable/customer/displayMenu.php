@@ -50,7 +50,9 @@
             try {
                 require($phppath.'callable/connection.php');
                 $prepq=$db->prepare("SELECT * FROM items WHERE restaurantid LIKE ? AND title LIKE ? ");
-                $x=$_GET['id'];
+                $x="0";
+                if(isset($_GET['id'])){
+                  $x=$_GET['id']; }
                 $prepq->execute(array("%$x%","%$searchparameter%"));
                 $db=null;
                 $rowq=$prepq->fetchAll(PDO::FETCH_ASSOC);
@@ -76,7 +78,7 @@
                       <form>
                           <input type='hidden' name='restaurantidx' value="<?php echo $row['restaurantid'] ?>">
                           <textarea style="border: 2px solid red; border-radius: 4px; width: 25%; height: 5%; resize: none; text-align: center;" formmethod="POST" formaction="<?php echo $htmlpath.'callable/customer/displayMenu.php' ?>" type='submit' name='qty' value="<?php echo $row['userid'] ?>">1</textarea>
-                          <button style="margin-bottom:30px;" formmethod="POST" formaction="<?php echo $htmlpath.'callable/customer/displayMenu.php' ?>" class='btn btn-primary' type='submit' name='itemidx' value="<?php echo $row['itemid'] ?>">Add</button>
+                          <button style="margin-bottom:30px;" formmethod="POST" formaction="<?php echo $htmlpath.'callable/customer/displayMenu.php?id='.$row['restaurantid']; ?>" class='btn btn-primary' type='submit' name='itemidx' value="<?php echo $row['itemid'] ?>">Add</button>
                       </form>
                   </div>
                 </div> <hr />
@@ -89,7 +91,9 @@
             try {
                 require($phppath.'callable/connection.php');
                 $prepq=$db->prepare("SELECT * FROM items WHERE restaurantid LIKE ? ");
-                $x=$_GET['id'];
+                $x="0";
+                if(isset($_GET['id'])){
+                  $x=$_GET['id']; }
                 $prepq->execute(array("%$x%"));
                 $prepq->execute();
                 $db=null;
@@ -114,7 +118,7 @@
                         <form>
                             <input type='hidden' name='restaurantidx' value="<?php echo $row['restaurantid'] ?>">
                             <textarea style="border: 2px solid red; border-radius: 4px; width: 25%; height: 5%; resize: none; text-align: center;" formmethod="POST" formaction="<?php echo $htmlpath.'callable/customer/displayMenu.php' ?>" type='submit' name='qty' value="<?php echo $row['userid'] ?>">1</textarea>
-                            <button style="margin-bottom:30px;"  formmethod="POST" formaction="<?php echo $htmlpath.'callable/customer/displayMenu.php' ?>" class='btn btn-primary' type='submit' name='itemidx' value="<?php echo $row['itemid'] ?>">Add</button>
+                            <button style="margin-bottom:30px;"  formmethod="POST" formaction="<?php echo $htmlpath.'callable/customer/displayMenu.php?id='.$row['restaurantid']; ?>" class='btn btn-primary' type='submit' name='itemidx' value="<?php echo $row['itemid'] ?>">Add</button>
                         </form>
                     </div>
                 </div> <hr />
