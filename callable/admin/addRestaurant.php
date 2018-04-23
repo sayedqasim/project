@@ -76,11 +76,11 @@
             $description="";
         }
     }
-    // else {
-    //     $name="";
-    //     $logo="";
-    //     $description="";
-    // }
+    else {
+       $name="";
+       $logo="";
+       $description="";
+    }
 ?>
 
 
