@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.9
+-- version 4.7.7
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 22, 2018 at 03:06 PM
--- Server version: 10.1.31-MariaDB
--- PHP Version: 7.2.3
+-- Generation Time: Apr 23, 2018 at 10:08 PM
+-- Server version: 10.1.30-MariaDB
+-- PHP Version: 7.2.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -46,10 +46,18 @@ CREATE TABLE `items` (
   `restaurantid` int(11) NOT NULL,
   `title` varchar(20) NOT NULL,
   `description` varchar(50) NOT NULL,
-  `price` int(11) NOT NULL,
-  `image` varchar(15) NOT NULL,
+  `price` float NOT NULL,
+  `image` varchar(40) NOT NULL,
   `type` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `items`
+--
+
+INSERT INTO `items` (`itemid`, `restaurantid`, `title`, `description`, `price`, `image`, `type`) VALUES
+(1, 2, 'McChicken', 'Chicken burger', 1.5, 'upi/2/3.jpg', 'Burger'),
+(2, 2, 'McRoyale', 'Cheeseburger', 3.4, 'upi/2/2.jpg', 'Burger');
 
 -- --------------------------------------------------------
 
@@ -98,9 +106,17 @@ CREATE TABLE `restaurantmanagers` (
 CREATE TABLE `restaurants` (
   `restaurantid` int(11) NOT NULL,
   `name` varchar(25) NOT NULL,
-  `logo` varchar(15) NOT NULL,
+  `logo` varchar(40) NOT NULL,
   `description` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `restaurants`
+--
+
+INSERT INTO `restaurants` (`restaurantid`, `name`, `logo`, `description`) VALUES
+(1, 'KFC', 'upi/kfc.png', 'Fried Chicken'),
+(2, 'McDonalds', 'upi/2.png', 'American, Burgers');
 
 -- --------------------------------------------------------
 
@@ -212,7 +228,7 @@ ALTER TABLE `branches`
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `itemid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `itemid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `orders`
@@ -224,7 +240,7 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT for table `restaurants`
 --
 ALTER TABLE `restaurants`
-  MODIFY `restaurantid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `restaurantid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`

@@ -9,11 +9,11 @@
           <?php
                 require($phppath.'callable/generateNavElements.php');
                 $arrayOfElements= array(
-                    'Past Orders' => 'callable/customer/pastOrders.php',
                     'Browse Restaurants' => 'callable/customer/browseRestaurants.php',
                     'Cart' => 'callable/customer/viewCart.php',
-                    'Contact Us' => 'callable/contactus.php',
+                    'Past Orders' => 'callable/customer/pastOrders.php',
                     'Edit Profile' => 'callable/editprofile.php',
+                    'Contact Us' => 'callable/contactus.php',
                     'Logout' => 'callable/logout.php',
                 );
                 generateNavElements($arrayOfElements,$htmlpath);
