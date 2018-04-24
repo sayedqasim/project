@@ -4,9 +4,8 @@
 <?php
     require($phppath."callable/admin/authenticateadmin.php");
     extract($_POST);
-    if (isset($managerid)) {
+    if (isset($managerid))
         $_SESSION['managerid']=$managerid;
-    }
     try {
         require($phppath.'callable/connection.php');
         $prepq=$db->prepare("SELECT * FROM users WHERE userid=?");
@@ -18,6 +17,7 @@
         echo "Error occured!";
         die($e->getMessage());
     }
+
     $pwdontmatch="";
     $invalidphone="";
     if(isset($update)){
@@ -123,6 +123,9 @@
   <li class="breadcrumb-item">
     <a href="<?php echo $htmlpath.'index.php';?>">Home</a>
   </li>
+  <li class="breadcrumb-item">
+    <a href="<?php echo $htmlpath.'callable/admin/managerview.php';?>">Managers</a>
+  </li>
   <li class="breadcrumb-item active">Edit Manager</li>
 </ol>
 
@@ -142,7 +145,7 @@
         <div class="controls">
           <label>Name:</label>
           <input value='<?php echo $rowq['name']; ?>' type="text" class="form-control" id="name" name="name" required data-validation-required-message="Please enter your name.">
-          <p class="help-block"></p>
+
         </div>
       </div>
       <div class="control-group form-group">

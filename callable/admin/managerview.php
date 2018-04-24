@@ -35,11 +35,11 @@
         </form>
     </div>
     <?php
+        $searchparameter="";
         extract($_POST);
-        if (isset($searchparameter)) {
             try {
                 require($phppath.'callable/connection.php');
-                $prepq=$db->prepare("SELECT * FROM users WHERE name LIKE ? OR email like ? OR phone LIKE ?");
+                $prepq=$db->prepare("SELECT * FROM users WHERE (name LIKE ? OR email like ? OR phone LIKE ?) AND (usertype='manager')");
                 $prepq->execute(array("%$searchparameter%","%$searchparameter%","%$searchparameter%"));
                 $db=null;
                 $rowq=$prepq->fetchAll(PDO::FETCH_ASSOC);
@@ -47,82 +47,72 @@
                 echo "Error occured!";
                 die($e->getMessage());
             }
-
+            if (count($rowq)<=0) {
+                echo "<div style='color:red; text-align:center; font-size: 12px;'>No search results found.</div>";
+            }
             foreach ($rowq as $row) {
-              if ($row['usertype']=='manager') {
+
                 ?>
+                <br/>
                 <div class='row' >
                     <div style='text-align:center;' class='col-md-2' >
                         <img style='margin: auto;' class='img-fluid rounded mb-3 mb-md-0' width='100' height='100' src="<?php echo $htmlpath.$row['profilepicture']; ?>" alt=''>
                     </div>
-                    <div class='col-md-8' >
+                    <div class='col-md-5' >
                         <table >
                             <tr><td><b>Name:</b></td><td><?php echo $row['name']; ?></td></tr>
                             <tr><td><b>Email:</b></td><td><?php echo $row['email']; ?></td></tr>
                             <tr><td><b>Phone:</b></td><td><?php echo $row['phone']; ?></td></tr>
                         </table>
                     </div>
-                    <div style='text-align:center;' class='col-md-2' >
+                    <div style='text-align:center;' class='col-md-5' >
                         <form>
+                            <button style="margin-top:5px;" formmethod="POST" formaction="<?php echo $htmlpath.'callable/admin/appointManager.php' ?>" class='btn btn-primary' type='submit' name='managerid' value="<?php echo $row['userid'] ?>">Appoint</button>
                             <button style="margin-top:5px;" formmethod="POST" formaction="<?php echo $htmlpath.'callable/admin/editmanager.php' ?>" class='btn btn-primary' type='submit' name='managerid' value="<?php echo $row['userid'] ?>">Edit</button>
                             <button style="margin-top:5px;" formmethod="POST" formaction="<?php echo $htmlpath.'callable/admin/deletemanager.php' ?>" class='btn btn-primary' type='submit' name='managerid' value="<?php echo $row['userid'] ?>">Delete</button>
                         </form>
                     </div>
                 </div>
-                <br/>
+                        <?php
+                            try {
+                                require($phppath.'callable/connection.php');
+                                $preps=$db->prepare("SELECT * FROM restaurants WHERE restaurantid IN (SELECT restaurantid FROM restaurantmanagers WHERE managerid=?)");
+                                $preps->execute(array($row['userid']));
+                                $db=null;
+                                $rows=$preps->fetchAll(PDO::FETCH_ASSOC);
+                            } catch (PDOException $e) {
+                                echo "Error occured!";
+                                die($e->getMessage());
+                            }
+                            if (count($rows)<=0) {
+                                echo "<div style='color:red; text-align:center; font-size: 12px;'>No restaurants appointed yet.</div>";
+                            }
+                            else {
+                                echo "<div style='color:red; text-align:center; font-size: 12px;'>Is appointed to:</div>";
+                            foreach ($rows as $r) {
+                        ?>
+
+                                <div class='row' >
+                                    <div style='text-align:center;' class='col-md-2' >
+                                        <img style='margin: auto;' class='img-fluid rounded mb-3 mb-md-0' width='100' height='100' src="<?php echo $htmlpath.$r['logo']; ?>" alt=''>
+                                    </div>
+                                    <div class='col-md-8' >
+                                        <table >
+                                            <tr><td><b>Name:</b></td><td><?php echo $r['name']; ?></td></tr>
+                                            <tr><td><b>Description:</b></td><td><?php echo $r['description']; ?></td></tr>
+                                        </table>
+                                    </div>
+                                </div>
+                    <?php
+                            }
+                    ?>
     <?php
             }
+            echo "<hr/>";
           }
-        }
         ?>
-    <hr/>
-    <?php
-        if (isset($viewall)) {
-            try {
-                require($phppath.'callable/connection.php');
-                $prepq=$db->prepare("SELECT * FROM users WHERE usertype='manager'");
-                $prepq->execute();
-                $db=null;
-                $rowq=$prepq->fetchAll(PDO::FETCH_ASSOC);
-            } catch (PDOException $e) {
-                echo "Error occured!";
-                die($e->getMessage());
-            }
-            foreach ($rowq as $row) {
-                ?>
-                <div class='row' >
-                    <div style='text-align:center;' class='col-md-2' >
-                        <img style='margin: auto;' class='img-fluid rounded mb-3 mb-md-0' width='100' height='100' src="<?php echo $htmlpath.$row['profilepicture']; ?>" alt=''>
-                    </div>
-                    <div class='col-md-8' >
-                        <table>
-                            <tr><td><b>Name:</b></td><td><?php echo $row['name']; ?></td></tr>
-                            <tr><td><b>Email:</b></td><td><?php echo $row['email']; ?></td></tr>
-                            <tr><td><b>Phone:</b></td><td><?php echo $row['phone']; ?></td></tr>
-                        </table>
-                    </div>
-                    <div style='text-align:center;' class='col-md-2' >
-                        <form>
-                            <button style="margin-top:5px;" formmethod="POST" formaction="<?php echo $htmlpath.'callable/admin/editmanager.php' ?>" class='btn btn-primary' type='submit' name='managerid' value="<?php echo $row['userid'] ?>">Edit</button>
-                            <button style="margin-top:5px;" formmethod="POST" formaction="<?php echo $htmlpath.'callable/admin/deletemanager.php' ?>" class='btn btn-primary' type='submit' name='managerid' value="<?php echo $row['userid'] ?>">Delete</button>
-                        </form>
-                    </div>
-                </div>
-                <br/>
-    <?php
-            }
-        } else {
-            ?>
-            <div style="text-align:center;">
-                <form method="post">
-                    <button type="submit" style="width:75%;" class="btn btn-primary" name="viewall">View All Managers</button>
-                </form>
-            </div>
-            <br/>
-    <?php
-        }
-    ?>
 </div>
+<br/>
 
 <!-- Footer -->
 <?php require($footer); ?>

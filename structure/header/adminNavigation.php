@@ -11,7 +11,6 @@
                 $arrayOfElements= array(
                     'Managers' => 'callable/admin/managerview.php',
                     'Restaurants' => 'callable/admin/restaurantview.php',
-                    'Restaurant Managers' => 'callable/admin/restaurantmanagers.php',
                     'Contact Us' => 'callable/contactus.php',
                     'Edit Profile' => 'callable/editprofile.php',
                     'Logout' => 'callable/logout.php',
