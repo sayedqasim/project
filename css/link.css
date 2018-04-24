@@ -1,0 +1,9 @@
+a.rowLink{
+    color: black; text-decoration: none;
+}
+a.rowLink:hover{
+    color: black; text-decoration: none;
+}
+div.rowLink{
+    position: absolute; left: 163px; top: 1px; font-size: 12px; display: block;
+}
