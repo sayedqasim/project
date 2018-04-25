@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 25, 2018 at 04:38 PM
+-- Generation Time: Apr 25, 2018 at 06:59 PM
 -- Server version: 10.1.30-MariaDB
 -- PHP Version: 7.2.2
 
@@ -58,7 +58,8 @@ CREATE TABLE `items` (
 INSERT INTO `items` (`itemid`, `restaurantid`, `title`, `description`, `price`, `image`, `type`) VALUES
 (1, 2, 'McChicken', 'Chicken burger', '1.50', 'upi/2/3.jpg', 'Burger'),
 (2, 2, 'McRoyale', 'Cheeseburger', '3.40', 'upi/2/2.jpg', 'Burger'),
-(3, 2, 'Big Mac', 'Cheeseburger', '2.80', 'upi/2/1.jpg', 'Burger');
+(3, 2, 'Big Mac', 'Cheeseburger', '2.80', 'upi/2/1.jpg', 'Burger'),
+(4, 1, 'Chicken Bucket 6pc', 'Six piece chicken bucket', '2.80', 'upi/1/1.jpeg', 'Bucket Meal');
 
 -- --------------------------------------------------------
 
@@ -233,7 +234,7 @@ ALTER TABLE `branches`
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `itemid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `itemid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `orders`

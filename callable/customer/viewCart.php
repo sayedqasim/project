@@ -76,7 +76,7 @@
                               <form>
                                   <input type='hidden' name='restaurantidx' value="<?php echo $row [0]['restaurantid'] ?>">
                                   <input type='hidden' name='itemidx' value="<?php echo $row[0]['itemid'] ?>">
-                                  <button style="margin-bottom:0px;"  formmethod="POST" formaction="<?php echo $htmlpath.'callable/customer/viewCart.php'; ?>" class='btn btn-primary' type='submit' name='deleteitem' value="<?php echo $row['itemid'] ?>">Delete</button>
+                                  <button style="margin-top:5px;"  formmethod="POST" formaction="<?php echo $htmlpath.'callable/customer/viewCart.php'; ?>" class='btn btn-primary' type='submit' name='deleteitem' value="<?php echo $row['itemid'] ?>">Delete</button>
                               </form>
                           </div>
                       </div> <hr />
@@ -85,9 +85,23 @@
                   }
                   ?>
                  <div style='text-align:right; font-size:20;' class:'col-mg-2' > <b>
-                   <form>
+                   <form><?php try {
+                       require($phppath.'callable/connection.php');
+                       $prepq=$db->prepare("SELECT * FROM restaurants WHERE restaurantid LIKE ?");
+                       $xa=$_SESSION['cart'][0]['rid'];
+                       $prepq->execute(array("%$xa%"));
+                       $prepq->execute();
+                       $db=null;
+                       $row=$prepq->fetchAll(PDO::FETCH_ASSOC);
+                   } catch (PDOException $e) {
+                       echo "Error occured!";
+                       die($e->getMessage());
+                   } if($row[0]['DeliveryType']=="PD") {?>
                      <input type="radio" style=" margin-left:0px;margin-right:2px;  font-size:14;" class='btn btn-primary' name="deltype" value="P">Pickup </input>
                      <input type="radio" style=" margin-left:5px;margin-right:2px; font-size:14;" class='btn btn-primary' name="deltype" value="DP">Delivery </input>
+                   <?php } else { ?>
+                      <input type="radio" style=" margin-left:0px;margin-right:2px;  font-size:14;" class='btn btn-primary' name="deltype" value="P">Pickup </input>
+                   <?php }?>
                      <text-align style="margin-left:20px; margin-right:10px;">
                      <?php echo "Order Total: BD".$ordertotal; ?> </b> </text-align>
                      <button style="margin-left:0px; font-size:14;"  formmethod="POST" formaction="<?php echo $htmlpath.'callable/customer/checkout.php'; ?>" class='btn btn-primary' type='submit' name='deleteitem' value="checkout">Proceed to checkout</button>
