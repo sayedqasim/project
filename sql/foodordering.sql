@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 23, 2018 at 10:08 PM
+-- Generation Time: Apr 25, 2018 at 04:38 PM
 -- Server version: 10.1.30-MariaDB
 -- PHP Version: 7.2.2
 
@@ -46,7 +46,7 @@ CREATE TABLE `items` (
   `restaurantid` int(11) NOT NULL,
   `title` varchar(20) NOT NULL,
   `description` varchar(50) NOT NULL,
-  `price` float NOT NULL,
+  `price` decimal(8,2) NOT NULL,
   `image` varchar(40) NOT NULL,
   `type` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -56,8 +56,9 @@ CREATE TABLE `items` (
 --
 
 INSERT INTO `items` (`itemid`, `restaurantid`, `title`, `description`, `price`, `image`, `type`) VALUES
-(1, 2, 'McChicken', 'Chicken burger', 1.5, 'upi/2/3.jpg', 'Burger'),
-(2, 2, 'McRoyale', 'Cheeseburger', 3.4, 'upi/2/2.jpg', 'Burger');
+(1, 2, 'McChicken', 'Chicken burger', '1.50', 'upi/2/3.jpg', 'Burger'),
+(2, 2, 'McRoyale', 'Cheeseburger', '3.40', 'upi/2/2.jpg', 'Burger'),
+(3, 2, 'Big Mac', 'Cheeseburger', '2.80', 'upi/2/1.jpg', 'Burger');
 
 -- --------------------------------------------------------
 
@@ -107,16 +108,20 @@ CREATE TABLE `restaurants` (
   `restaurantid` int(11) NOT NULL,
   `name` varchar(25) NOT NULL,
   `logo` varchar(40) NOT NULL,
-  `description` varchar(30) NOT NULL
+  `description` varchar(30) NOT NULL,
+  `MinOrder` decimal(8,2) NOT NULL,
+  `DeliveryType` varchar(3) NOT NULL,
+  `AvgTime` int(11) NOT NULL,
+  `DeliveryCharge` decimal(8,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `restaurants`
 --
 
-INSERT INTO `restaurants` (`restaurantid`, `name`, `logo`, `description`) VALUES
-(1, 'KFC', 'upi/kfc.png', 'Fried Chicken'),
-(2, 'McDonalds', 'upi/2.png', 'American, Burgers');
+INSERT INTO `restaurants` (`restaurantid`, `name`, `logo`, `description`, `MinOrder`, `DeliveryType`, `AvgTime`, `DeliveryCharge`) VALUES
+(1, 'KFC', 'upi/kfc.png', 'Fried Chicken', '3.00', 'P', 30, '0.50'),
+(2, 'McDonalds', 'upi/2.png', 'American, Burgers', '1.00', 'PD', 60, '0.30');
 
 -- --------------------------------------------------------
 
@@ -228,7 +233,7 @@ ALTER TABLE `branches`
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `itemid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `itemid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `orders`

@@ -54,7 +54,11 @@
                       <a class=rowLink href="<?php echo $htmlpath.'callable/customer/displayMenu.php?id='.$row['restaurantid']; ?>">
                         <table>
                           <tr><td><b><?php echo $row['name']; ?></b></td></tr>
-                          <tr><td><b>Cuisine: </b></td><td><?php echo $row['description']; ?></td></tr>
+                          <tr><td><?php echo $row['description']; ?></td></tr>
+                          <tr><td><?php echo "Average Time: ".$row['AvgTime']." min" ?></td></tr>
+                          <tr><td><?php echo "Min. Order: BD".$row['MinOrder']; ?></td></tr>
+                          <?php if($row['DeliveryType']=="PD") {echo"<tr><td>Delivery Charge: BD".$row['DeliveryCharge']." </td></tr>";}
+                            else {echo"<tr><td>Only Pickup </td></tr>";} ?>
                         </table> </a>
                     </div>
                 </div> <hr />
@@ -83,9 +87,13 @@
 
                     <div class='col-md-8' >
                       <a class=rowLink href="<?php echo $htmlpath.'callable/customer/displayMenu.php?id='.$row['restaurantid']; ?>">
-                        <table >
+                        <table>
                           <tr><td><b><?php echo $row['name']; ?></b></td></tr>
-                          <tr><td><b>Cuisine: </b></td><td><?php echo $row['description']; ?></td></tr>
+                          <tr><td><?php echo $row['description']; ?></td></tr>
+                          <tr><td><?php echo "Average Time: ".$row['AvgTime']." min" ?></td></tr>
+                          <tr><td><?php echo "Min. Order: BD".$row['MinOrder']; ?></td></tr>
+                          <?php if($row['DeliveryType']=="PD") {echo"<tr><td>Delivery Charge: BD".$row['DeliveryCharge']." </td></tr>";}
+                            else {echo"<tr><td>Only Pickup </td></tr>";} ?>
                         </table> </a>
                     </div>
                 </div> <hr />

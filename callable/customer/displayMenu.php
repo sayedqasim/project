@@ -22,7 +22,7 @@
         <a href="<?php echo $htmlpath.'index.php';?>">Home</a>
     </li>
     <li class="breadcrumb-item">
-        <a href="<?php echo $htmlpath.'callable/customer/browseRestaurants.php';?>">Browse Restaurants</a>
+        <a href="<?php echo $htmlpath.'callable/customer/browseRestaurants.php';?>">Restaurants</a>
     </li>
         <li class="breadcrumb-item active">Menu</li>
     </ol>
@@ -39,10 +39,10 @@
         //Add to cart
         if(isset($restaurantidx)){
           if(!isset($_SESSION['cart'])){ //create cart
-          $items[]=array('rid'=>$restaurantidx,'iid' => $itemidx,'qty' => $qty);
+          $items[]=array('rid'=>$restaurantidx,'iid' => $itemidx,'qty' => $qty, 'price' => $price);
           $_SESSION['cart']=$items; }
           else { //add to cart
-            $item=array('rid'=>$restaurantidx,'iid' => $itemidx,'qty' => $qty);
+            $item=array('rid'=>$restaurantidx,'iid' => $itemidx,'qty' => $qty, 'price' => $price);
             $_SESSION['cart'][]=$item;
           }
         }
@@ -68,15 +68,16 @@
                         <img style='margin: auto;' class='img-fluid rounded mb-3 mb-md-0' width='100' height='100' src="<?php echo $htmlpath.$row['image']; ?>" alt=''>
                     </div>
                     <div class='col-md-8' >
-
                         <table>
                           <tr><td><b><?php echo $row['title']; ?></b></td></tr>
                           <tr><td><?php echo $row['description']; ?></td></tr>
                         </table>
                     </div>
                     <div style='text-align:center;' class='col-md-2' >
+                      BD<?php echo $row['price']; ?>
                       <form>
                           <input type='hidden' name='restaurantidx' value="<?php echo $row['restaurantid'] ?>">
+                          <input type='hidden' name='price' value="<?php echo $row['price'] ?>">
                           <textarea style="border: 2px solid red; border-radius: 4px; width: 25%; height: 5%; resize: none; text-align: center;" formmethod="POST" formaction="<?php echo $htmlpath.'callable/customer/displayMenu.php' ?>" type='submit' name='qty' value="<?php echo $row['userid'] ?>">1</textarea>
                           <button style="margin-bottom:30px;" formmethod="POST" formaction="<?php echo $htmlpath.'callable/customer/displayMenu.php?id='.$row['restaurantid']; ?>" class='btn btn-primary' type='submit' name='itemidx' value="<?php echo $row['itemid'] ?>">Add</button>
                       </form>
@@ -114,8 +115,10 @@
                         </table>
                     </div>
                     <div style='text-align:center;' class='col-md-2' >
+                      BD<?php echo $row['price']; ?>
                         <form>
                             <input type='hidden' name='restaurantidx' value="<?php echo $row['restaurantid'] ?>">
+                            <input type='hidden' name='price' value="<?php echo $row['price'] ?>">
                             <textarea style="border: 2px solid red; border-radius: 4px; width: 25%; height: 5%; resize: none; text-align: center;" formmethod="POST" formaction="<?php echo $htmlpath.'callable/customer/displayMenu.php' ?>" type='submit' name='qty' value="<?php echo $row['userid'] ?>">1</textarea>
                             <button style="margin-bottom:30px;"  formmethod="POST" formaction="<?php echo $htmlpath.'callable/customer/displayMenu.php?id='.$row['restaurantid']; ?>" class='btn btn-primary' type='submit' name='itemidx' value="<?php echo $row['itemid'] ?>">Add</button>
                         </form>
