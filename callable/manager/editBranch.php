@@ -4,29 +4,17 @@
 
 <?php
     extract($_POST);
-    $addedsuccessfully="";
+    $updatedsuccessfully="";
     $branchexists="";
     $invalidphone="";
     if (isset($branchid))
         $_SESSION['branchid']=$branchid;
     if(isset($update)){
         $address = $area . ':' . $block . ':' . $road . ':' . $building;
-        try {
-            require($phppath.'callable/connection.php');
-            $prepq=$db->prepare("SELECT * FROM branches WHERE address=?");
-            $prepq->execute(array($address));
-            $db=null;
-        } catch (PDOException $e) {
-            echo "Error occured!";
-            die($e->getMessage());
-        }
         $pattern="/^((00)?(973))?[369178][0-9]{7}$/";
-        if(!preg_match($pattern, $phone) || $prepq->rowCount()==1 ){
-            if (!preg_match($pattern, $phone))
-                $invalidphone="<div style='color:red; text-align:center; font-size: 12px;'>Please enter a valid phone number.</div>";
-            if ($prepq->rowCount()==1)
-                $branchexists="<div style='color:red; text-align:center; font-size: 12px;'>Branch already exists.</div>";
-        }
+        if(!preg_match($pattern, $phone))
+            $invalidphone="<div style='color:red; text-align:center; font-size: 12px;'>Please enter a valid phone number.</div>";
+
         else {
             try {
                 require($phppath.'callable/connection.php');
@@ -37,7 +25,7 @@
                 echo "Error occured!";
                 die($e->getMessage());
             }
-            $addedsuccessfully="<div style='color:red; text-align:center; font-size: 12px;'>Branch has been updated succesfully.</div>";
+            $updatedsuccessfully="<div style='color:red; text-align:center; font-size: 12px;'>Branch has been updated succesfully.</div>";
             $area ="";
             $block ="";
             $road ="";
@@ -45,7 +33,6 @@
             $phone="";
         }
     }
-
     try {
         require($phppath.'callable/connection.php');
         $prepq=$db->prepare("SELECT * FROM branches WHERE branchid=?");
@@ -61,7 +48,6 @@
     $block=$explodedaddress[1];
     $road=$explodedaddress[2];
     $building=$explodedaddress[3];
-
 ?>
 
 
@@ -80,7 +66,7 @@
 <div class="container">
 
   <!-- Page Heading/Breadcrumbs -->
-  <h1 class="mt-4 mb-3">Add Restaurant</h1>
+  <h1 class="mt-4 mb-3">Edit Branch</h1>
 
   <ol class="breadcrumb">
     <li class="breadcrumb-item">
@@ -98,7 +84,7 @@
   <!-- /.row -->
   <div class="row">
     <div style="margin: auto;" class="col-lg-8 mb-4">
-      <?php echo "$addedsuccessfully"; ?>
+      <?php echo "$updatedsuccessfully"; ?>
       <form method="POST">
         <?php echo "$branchexists"; ?>
         <div class="control-group form-group">

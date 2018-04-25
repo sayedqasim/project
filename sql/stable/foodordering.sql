@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.0
+-- version 4.7.9
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 25, 2018 at 10:33 AM
+-- Generation Time: Apr 25, 2018 at 11:07 PM
 -- Server version: 10.1.31-MariaDB
--- PHP Version: 7.2.4
+-- PHP Version: 7.2.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -53,11 +53,26 @@ CREATE TABLE `items` (
   `itemid` int(11) NOT NULL,
   `restaurantid` int(11) NOT NULL,
   `title` varchar(20) NOT NULL,
-  `description` varchar(50) NOT NULL,
+  `description` varchar(100) NOT NULL,
   `price` float NOT NULL,
   `image` varchar(20) NOT NULL,
   `type` varchar(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `items`
+--
+
+INSERT INTO `items` (`itemid`, `restaurantid`, `title`, `description`, `price`, `image`, `type`) VALUES
+(1, 1, 'Mighty Zinger', 'KFC’s Spicy Zinger Recipe, cheese, lettuce, spicy.', 1.5, 'rii/1/1.png', 'Burger:Chicken:Crispy:Spicy:Regular'),
+(2, 1, 'Zinger Shrimp', 'Zinger shrimp sandwich with fries & soft drink.', 2.1, 'rii/1/2.png', 'Spicy:Shrimp:Sub:Combo'),
+(3, 1, 'Twister', 'Crispy chicken strips, diced tomatoes.', 0.8, 'rii/1/3.png', 'Chicken:Spicy:Regular:Wrap'),
+(4, 3, 'Whopper', 'Burger King Signature, Lettuce, tomato, pickles.', 2.8, 'rii/3/4.png', 'American:Burger:Beef'),
+(5, 3, 'Big King', 'Double Whopper with Big King sauce.', 3.1, 'rii/3/5.png', 'Beef:Burger:American'),
+(6, 3, 'Fish Royale', 'Mayo, lettuce, breaded fish.', 2.5, 'rii/3/6.png', 'Fish:Burger:Sea'),
+(7, 2, 'Double Deluxe', 'Two 1/4 lb. Patties Stacked with Your Choice of Cheese.', 3.1, 'rii/2/7.png', 'Burger:American:Beef:Double'),
+(8, 2, 'Three Cheese', 'Cheddar, Provolone, Swiss Cheese.', 3, 'rii/2/8.png', 'Beef:American:Burger'),
+(9, 2, 'The Works', 'Smokehouse Bacon, American Cheese, Grilled Mushrooms.', 3.1, 'rii/2/9.png', 'Burger:American:Beef');
 
 -- --------------------------------------------------------
 
@@ -182,7 +197,7 @@ ALTER TABLE `branches`
 -- Indexes for table `items`
 --
 ALTER TABLE `items`
-  ADD PRIMARY KEY (`itemid`),
+  ADD PRIMARY KEY (`itemid`,`restaurantid`,`title`),
   ADD KEY `restaurantid` (`restaurantid`);
 
 --
@@ -240,7 +255,7 @@ ALTER TABLE `branches`
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `itemid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `itemid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `orders`

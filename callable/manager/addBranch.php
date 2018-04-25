@@ -11,8 +11,8 @@
         $address = $area . ':' . $block . ':' . $road . ':' . $building;
         try {
             require($phppath.'callable/connection.php');
-            $prepq=$db->prepare("SELECT * FROM branches WHERE address=?");
-            $prepq->execute(array($address));
+            $prepq=$db->prepare("SELECT * FROM branches WHERE address=? AND restaurantid=?");
+            $prepq->execute(array($address,$_SESSION['restaurantid']));
             $db=null;
         } catch (PDOException $e) {
             echo "Error occured!";
@@ -68,7 +68,7 @@
 <div class="container">
 
   <!-- Page Heading/Breadcrumbs -->
-  <h1 class="mt-4 mb-3">Add Restaurant</h1>
+  <h1 class="mt-4 mb-3">Add Branch</h1>
 
   <ol class="breadcrumb">
     <li class="breadcrumb-item">
@@ -80,7 +80,7 @@
     <li class="breadcrumb-item">
       <a href="<?php echo $htmlpath.'callable/manager/branchview.php';?>">Branches</a>
     </li>
-    <li class="breadcrumb-item active">Add Restaurant</li>
+    <li class="breadcrumb-item active">Add Branch</li>
   </ol>
 
   <!-- /.row -->

@@ -25,7 +25,7 @@
         $prepqr->execute(array($_SESSION['restaurantid']));
         $rowqr=$prepqr->fetchAll(PDO::FETCH_ASSOC);
 
-        $prepq=$db->prepare("SELECT * FROM branches WHERE (address LIKE ? OR phone like ?) AND (restaurantid=?)");
+        $prepq=$db->prepare("SELECT * FROM branches WHERE (address LIKE ? OR phone LIKE ?) AND (restaurantid=?)");
         $prepq->execute(array("%$searchparameter%","%$searchparameter%",$_SESSION['restaurantid']));
         $rowq=$prepq->fetchAll(PDO::FETCH_ASSOC);
         $db=null;
