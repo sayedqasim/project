@@ -77,6 +77,9 @@
     <li class="breadcrumb-item">
       <a href="<?php echo $htmlpath.'callable/manager/restaurants.php';?>">Restaurants</a>
     </li>
+    <li class="breadcrumb-item">
+      <a href="<?php echo $htmlpath.'callable/manager/branchview.php';?>">Branches</a>
+    </li>
     <li class="breadcrumb-item active">Add Restaurant</li>
   </ol>
 

@@ -80,7 +80,7 @@
                         die($e->getMessage());
                     }
                     if (count($rows)<=0) {
-                        echo "<div style='color:red; text-align:center; font-size: 12px;'>No restaurants appointed yet.</div>";
+                        echo "<div style='color:red; text-align:center; font-size: 12px;'>No manager appointed yet.</div>";
                     }
                     else {
                         echo "<div style='color:red; text-align:center; font-size: 12px;'>Is appointed to:</div>";
