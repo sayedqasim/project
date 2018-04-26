@@ -6,19 +6,6 @@
     extract($_POST);
     if (isset($branchid))
         $_SESSION['branchid']=$branchid;
-    if (isset($delete)) {
-        try {
-            require($phppath.'callable/connection.php');
-            $prepd=$db->prepare("DELETE FROM branches WHERE branchid=?");
-            $prepd->execute(array($_SESSION['branchid']));
-            $db=null;
-            header('location:'.$htmlpath.'callable/manager/branchview.php');
-            die();
-        } catch (PDOException $e) {
-            echo "Error occured!";
-            die($e->getMessage());
-        }
-    }
     try {
         require($phppath.'callable/connection.php');
         $prepq=$db->prepare("SELECT * FROM branches WHERE branchid=?");
@@ -35,6 +22,28 @@
     $road=$explodedaddress[2];
     $building=$explodedaddress[3];
     $rowq['address'] = $area . ', Block: ' . $block . ', Road: ' . $road . ', Building: ' . $building . '.';
+    if (isset($delete)) {
+        try {
+            require($phppath.'callable/connection.php');
+            $db->beginTransaction();
+            $prepd=$db->prepare("DELETE FROM branches WHERE branchid=?");
+            $prepd->execute(array($_SESSION['branchid']));
+            $prepn=$db->prepare("SELECT name FROM restaurants WHERE restaurantid=?");
+            $prepn->execute(array($_SESSION['restaurantid']));
+            $rown=$prepn->fetch(PDO::FETCH_ASSOC);
+            $emailofuser=strtolower($rown['name'].'-'.$area)."@email.com";
+            $prepda=$db->prepare("DELETE FROM users WHERE email=?");
+            $prepda->execute(array($emailofuser));
+            $db->commit();
+            $db=null;
+            header('location:'.$htmlpath.'callable/manager/branchview.php');
+            die();
+        } catch (PDOException $e) {
+            $db->rollBack();
+            echo "Error occured!";
+            die($e->getMessage());
+        }
+    }
 
 ?>
 

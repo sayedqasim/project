@@ -28,10 +28,21 @@
         else {
             try {
                 require($phppath.'callable/connection.php');
+                $db->beginTransaction();
                 $prep=$db->prepare("INSERT INTO branches (restaurantid,address, phone) VALUES(?, ?, ?)");
                 $prep->execute(array($_SESSION['restaurantid'], $address, $phone));
+                $prepn=$db->prepare("SELECT name, logo FROM restaurants WHERE restaurantid=?");
+                $prepn->execute(array($_SESSION['restaurantid']));
+                $rown=$prepn->fetch(PDO::FETCH_ASSOC);
+                $nameofuser=$rown['name'].' '.$area;
+                $emailofuser=strtolower($rown['name'].'-'.$area)."@email.com";
+                $passwordofuser=strtolower($rown['name'].$area)."pass";
+                $prepa=$db->prepare("INSERT INTO users (name, email, password, phone, profilepicture, usertype) VALUES (?, ?, MD5(?), ?, ?,'branch')");
+                $prepa->execute(array($nameofuser, $emailofuser, $passwordofuser, $phone, $rown['logo']));
+                $db->commit();
                 $db=null;
             } catch (PDOException $e) {
+                $db->rollBack();
                 echo "Error occured!";
                 die($e->getMessage());
             }

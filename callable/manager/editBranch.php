@@ -4,6 +4,7 @@
 
 <?php
     extract($_POST);
+    $disabled="disabled";
     $updatedsuccessfully="";
     $branchexists="";
     $invalidphone="";
@@ -14,7 +15,6 @@
         $pattern="/^((00)?(973))?[369178][0-9]{7}$/";
         if(!preg_match($pattern, $phone))
             $invalidphone="<div style='color:red; text-align:center; font-size: 12px;'>Please enter a valid phone number.</div>";
-
         else {
             try {
                 require($phppath.'callable/connection.php');
@@ -90,36 +90,36 @@
         <div class="control-group form-group">
           <div class="controls">
             <label>Area:</label>
-            <input value='<?php echo $area; ?>' type="text" class="form-control" id="area" name="area" required data-validation-required-message="Please enter branch area.">
+            <input value='<?php echo $area; ?>' type="text" class="form-control" id="area" name="area" <?php echo $disabled ?> required data-validation-required-message="Please enter branch area.">
           </div>
         </div>
         <div class="control-group form-group">
           <div class="controls">
             <label>Block:</label>
-            <input value='<?php echo $block; ?>' type="text" class="form-control" id="block" name="block" required data-validation-required-message="Please enter branch block.">
+            <input value='<?php echo $block; ?>' type="text" class="form-control" id="block" name="block" <?php echo $disabled ?> required data-validation-required-message="Please enter branch block.">
           </div>
         </div>
         <div class="control-group form-group">
           <div class="controls">
             <label>Road:</label>
-            <input value='<?php echo $road; ?>' type="text" class="form-control" id="road" name="road" required data-validation-required-message="Please enter branch road.">
+            <input value='<?php echo $road; ?>' type="text" class="form-control" id="road" name="road" <?php echo $disabled ?> required data-validation-required-message="Please enter branch road.">
           </div>
         </div>
         <div class="control-group form-group">
           <div class="controls">
             <label>Building:</label>
-            <input value='<?php echo $building; ?>' type="text" class="form-control" id="building" name="building" required data-validation-required-message="Please enter branch building.">
+            <input value='<?php echo $building; ?>' type="text" class="form-control" id="building" name="building" <?php echo $disabled ?> required data-validation-required-message="Please enter branch building.">
           </div>
         </div>
         <?php echo $invalidphone ?>
         <div class="control-group form-group">
           <div class="controls">
             <label>Phone:</label>
-            <input value="<?php echo $rowq['phone']; ?>" type="text" class="form-control" id="phone" name="phone" required data-validation-required-message="Please enter branch phone.">
+            <input value="<?php echo $rowq['phone']; ?>" type="text" class="form-control" id="phone" name="phone" <?php echo $disabled ?> required data-validation-required-message="Please enter branch phone.">
           </div>
         </div>
         <div style="text-align:center;">
-            <button style="width:75%;" type="submit" class="btn btn-primary" name="update" id="update">Update Branch</button>
+            <button style="width:75%;" type="submit" class="btn btn-primary" name="update" id="update" <?php echo $disabled ?>>Update Branch</button>
         </div>
       </form>
     </div>
