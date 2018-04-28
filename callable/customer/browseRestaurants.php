@@ -1,6 +1,6 @@
 <!-- Modular Require -->
 <?php require('C:\xampp\htdocs\project\callable\modularRequire.php'); ?>
-<link rel="stylesheet" href="<?php echo $htmlpath.'css\link.css';?>" />
+<!-- <link rel="stylesheet" href="<?php //echo $htmlpath.'css\link.css';?>" /> -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,83 +15,54 @@
 <!-- Page Content -->
 <div class="container">
     <!-- Page Heading/Breadcrumbs -->
-    <h1 class="mt-4 mb-3">Browse Restaurants</h1>
-
+    <h1 class="mt-4 mb-3">Restaurants</h1>
     <ol class="breadcrumb">
     <li class="breadcrumb-item">
         <a href="<?php echo $htmlpath.'index.php';?>">Home</a>
     </li>
-        <li class="breadcrumb-item active">Browse Restaurants</li>
+    <li class="breadcrumb-item active">Restaurants</li>
     </ol>
     <hr/>
     <div style="text-align:center;">
-        <form method="post">
-            <input type="text" style="width:64%;" placeholder="Search menu" name="searchparameter">
-            <button type="submit" style="width:10%;" class="btn btn-primary">Search</button></a>
+        <form method="POST">
+            <input type="text" style="width:64%;" placeholder="Search .." name="searchparameter">
+            <button type="submit" style="width:10%;" class="btn btn-primary">Go</button></a>
         </form>
     </div>
+    <br/>
     <?php
+        $searchparameter="";
         extract($_POST);
-        if (isset($searchparameter)) {
-            try {
-                require($phppath.'callable/connection.php');
-                $prepq=$db->prepare("SELECT * FROM Restaurants WHERE name LIKE ?");
-                $prepq->execute(array("%$searchparameter%"));
-                $db=null;
-                $rowq=$prepq->fetchAll(PDO::FETCH_ASSOC);
-            } catch (PDOException $e) {
-                echo "Error occured!";
-                die($e->getMessage());
-            }
-
-            foreach ($rowq as $row) {
-                ?>
-                <div class='row' >
-                    <div style='text-align:center;' class='col-md-2' >  <a class=rowLink href="<?php echo $htmlpath.'callable/customer/displayMenu.php?id='.$row['restaurantid']; ?>">
-                        <img style='margin: auto;' class='img-fluid rounded mb-3 mb-md-0' width='100' height='100' src="<?php echo $htmlpath.$row['logo']; ?>" alt=''> </a>
-                    </div>
-                    <div class='col-md-8' >
-                      <a class=rowLink href="<?php echo $htmlpath.'callable/customer/displayMenu.php?id='.$row['restaurantid']; ?>">
-                        <table>
-                          <tr><td><b><?php echo $row['name']; ?></b></td></tr>
-                          <tr><td><b>Cuisine: </b></td><td><?php echo $row['description']; ?></td></tr>
-                        </table> </a>
-                    </div>
-                </div> <hr />
-                <br/>
-
-    <?php
-          }
+        try {
+            require($phppath.'callable/connection.php');
+            $prepq=$db->prepare("SELECT * FROM restaurants WHERE (name LIKE ? OR description LIKE ?) OR (restaurantid IN (SELECT restaurantid FROM items WHERE title LIKE ? OR description LIKE ? OR type LIKE ?)) OR (restaurantid IN (SELECT restaurantid FROM branches WHERE area LIKE ?))");
+            $prepq->execute(array_fill(0, 6,"%$searchparameter%"));
+            $db=null;
+            $rowq=$prepq->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo "Error occured!";
+            die($e->getMessage());
         }
-        else {
-            try {
-                require($phppath.'callable/connection.php');
-                $prepq=$db->prepare("SELECT * FROM Restaurants");
-                $prepq->execute();
-                $db=null;
-                $rowq=$prepq->fetchAll(PDO::FETCH_ASSOC);
-            } catch (PDOException $e) {
-                echo "Error occured!";
-                die($e->getMessage());
-            }
-            foreach ($rowq as $row) {
-                ?>
-                <div class='row' >
-                  <div style='text-align:center;' class='col-md-2' > <a href="<?php echo $htmlpath.'callable/customer/displayMenu.php?id='.$row['restaurantid']; ?>">
-                      <img style='margin: auto;' class='img-fluid rounded mb-3 mb-md-0' width='100' height='100' src="<?php echo $htmlpath.$row['logo']; ?>" alt=''> </a>
-                    </div>
-
-                    <div class='col-md-8' >
-                      <a class=rowLink href="<?php echo $htmlpath.'callable/customer/displayMenu.php?id='.$row['restaurantid']; ?>">
-                        <table >
-                          <tr><td><b><?php echo $row['name']; ?></b></td></tr>
-                          <tr><td><b>Cuisine: </b></td><td><?php echo $row['description']; ?></td></tr>
-                        </table> </a>
-                    </div>
-                </div> <hr />
-                <br/>
+        foreach ($rowq as $row) {
+    ?>
+            <div class='row'>
+                <div style='text-align:center;' class='col-md-3'>
+                    <img style='margin: auto;' class='img-fluid rounded mb-3 mb-md-0' width='100' height='100' src="<?php echo $htmlpath.$row['logo']; ?>" alt=''>
+                </div>
+                <div class='col-md-6'>
+                    <table >
+                        <tr><td><b>Name:</b></td><td><?php echo $row['name']; ?></td></tr>
+                        <tr><td><b>Description:</b></td><td><?php echo $row['description']; ?></td></tr>
+                    </table>
+                </div>
+                <div style='text-align:center;' class='col-md-3' >
+                    <form method="POST">
+                        <button style="height: 60px;margin-top:20px;" formaction="<?php echo $htmlpath.'callable/customer/displayMenu.php' ?>" class='btn btn-primary' type='submit' name='restaurantid' value="<?php echo $row['restaurantid'] ?>">Menu</button>
+                    </form>
+                </div>
+            </div>
+            <hr/>
     <?php
-            }
         }
     ?>
 </div>

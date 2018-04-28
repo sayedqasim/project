@@ -17,11 +17,10 @@
         die($e->getMessage());
     }
     $explodedaddress=explode(':', $rowq['address']);
-    $area=$explodedaddress[0];
-    $block=$explodedaddress[1];
-    $road=$explodedaddress[2];
-    $building=$explodedaddress[3];
-    $rowq['address'] = $area . ', Block: ' . $block . ', Road: ' . $road . ', Building: ' . $building . '.';
+    $block=$explodedaddress[0];
+    $road=$explodedaddress[1];
+    $building=$explodedaddress[2];
+    $rowq['address'] = $rowq['area'] . ', Block: ' . $block . ', Road: ' . $road . ', Building: ' . $building . '.';
     if (isset($delete)) {
         try {
             require($phppath.'callable/connection.php');
@@ -31,7 +30,7 @@
             $prepn=$db->prepare("SELECT name FROM restaurants WHERE restaurantid=?");
             $prepn->execute(array($_SESSION['restaurantid']));
             $rown=$prepn->fetch(PDO::FETCH_ASSOC);
-            $emailofuser=strtolower($rown['name'].'-'.$area)."@email.com";
+            $emailofuser=strtolower($rown['name'].'-'.$rowq['area'])."@email.com";
             $prepda=$db->prepare("DELETE FROM users WHERE email=?");
             $prepda->execute(array($emailofuser));
             $db->commit();

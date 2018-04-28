@@ -11,15 +11,15 @@
     if (isset($branchid))
         $_SESSION['branchid']=$branchid;
     if(isset($update)){
-        $address = $area . ':' . $block . ':' . $road . ':' . $building;
+        $address = $block . ':' . $road . ':' . $building;
         $pattern="/^((00)?(973))?[369178][0-9]{7}$/";
         if(!preg_match($pattern, $phone))
             $invalidphone="<div style='color:red; text-align:center; font-size: 12px;'>Please enter a valid phone number.</div>";
         else {
             try {
                 require($phppath.'callable/connection.php');
-                $prep=$db->prepare("UPDATE branches SET address=?, phone=? WHERE branchid=?");
-                $prep->execute(array($address, $phone, $_SESSION['branchid']));
+                $prep=$db->prepare("UPDATE branches SET area=?, address=?, phone=? WHERE branchid=?");
+                $prep->execute(array($area, $address, $phone, $_SESSION['branchid']));
                 $db=null;
             } catch (PDOException $e) {
                 echo "Error occured!";
@@ -44,10 +44,9 @@
         die($e->getMessage());
     }
     $explodedaddress=explode(':', $rowq['address']);
-    $area=$explodedaddress[0];
-    $block=$explodedaddress[1];
-    $road=$explodedaddress[2];
-    $building=$explodedaddress[3];
+    $block=$explodedaddress[0];
+    $road=$explodedaddress[1];
+    $building=$explodedaddress[2];
 ?>
 
 
@@ -90,7 +89,7 @@
         <div class="control-group form-group">
           <div class="controls">
             <label>Area:</label>
-            <input value='<?php echo $area; ?>' type="text" class="form-control" id="area" name="area" <?php echo $disabled ?> required data-validation-required-message="Please enter branch area.">
+            <input value='<?php echo $rowq['area']; ?>' type="text" class="form-control" id="area" name="area" <?php echo $disabled ?> required data-validation-required-message="Please enter branch area.">
           </div>
         </div>
         <div class="control-group form-group">

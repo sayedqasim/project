@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 25, 2018 at 11:07 PM
+-- Generation Time: Apr 28, 2018 at 10:31 PM
 -- Server version: 10.1.31-MariaDB
 -- PHP Version: 7.2.3
 
@@ -31,6 +31,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `branches` (
   `branchid` int(11) NOT NULL,
   `restaurantid` int(11) NOT NULL,
+  `area` varchar(20) NOT NULL,
   `address` varchar(50) NOT NULL,
   `phone` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -39,9 +40,9 @@ CREATE TABLE `branches` (
 -- Dumping data for table `branches`
 --
 
-INSERT INTO `branches` (`branchid`, `restaurantid`, `address`, `phone`) VALUES
-(1, 2, 'Sakhir:1400:35:12', '17171718'),
-(2, 3, 'Hamala:1000:200:164', '17171818');
+INSERT INTO `branches` (`branchid`, `restaurantid`, `area`, `address`, `phone`) VALUES
+(1, 2, 'Sakhir', '1400:35:12', '17171718'),
+(2, 3, 'Hamala', '1000:200:164', '17171818');
 
 -- --------------------------------------------------------
 
@@ -64,7 +65,7 @@ CREATE TABLE `items` (
 --
 
 INSERT INTO `items` (`itemid`, `restaurantid`, `title`, `description`, `price`, `image`, `type`) VALUES
-(1, 1, 'Mighty Zinger', 'KFC’s Spicy Zinger Recipe, cheese, lettuce, spicy.', 1.5, 'rii/1/1.png', 'Burger:Chicken:Crispy:Spicy:Regular'),
+(1, 1, 'Mighty Zinger', 'KFC’s Spicy Zinger Recipe, lettuce, cheese, spicy.', 1.5, 'rii/1/1.png', 'Burger:Chicken:Crispy:Spicy:Regular'),
 (2, 1, 'Zinger Shrimp', 'Zinger shrimp sandwich with fries & soft drink.', 2.1, 'rii/1/2.png', 'Spicy:Shrimp:Sub:Combo'),
 (3, 1, 'Twister', 'Crispy chicken strips, diced tomatoes.', 0.8, 'rii/1/3.png', 'Chicken:Spicy:Regular:Wrap'),
 (4, 3, 'Whopper', 'Burger King Signature, Lettuce, tomato, pickles.', 2.8, 'rii/3/4.png', 'American:Burger:Beef'),

@@ -25,7 +25,7 @@
         $prepqr->execute(array($_SESSION['restaurantid']));
         $rowqr=$prepqr->fetchAll(PDO::FETCH_ASSOC);
 
-        $prepq=$db->prepare("SELECT * FROM branches WHERE (address LIKE ? OR phone LIKE ?) AND (restaurantid=?)");
+        $prepq=$db->prepare("SELECT * FROM branches WHERE (area LIKE ? OR phone LIKE ?) AND (restaurantid=?)");
         $prepq->execute(array("%$searchparameter%","%$searchparameter%",$_SESSION['restaurantid']));
         $rowq=$prepq->fetchAll(PDO::FETCH_ASSOC);
         $db=null;
@@ -75,11 +75,10 @@
         else {
         foreach ($rowq as $row) {
             $explodedaddress=explode(':', $row['address']);
-            $area=$explodedaddress[0];
-            $block=$explodedaddress[1];
-            $road=$explodedaddress[2];
-            $building=$explodedaddress[3];
-            $row['address'] = $area . ', Block: ' . $block . ', Road: ' . $road . ', Building: ' . $building . '.';
+            $block=$explodedaddress[0];
+            $road=$explodedaddress[1];
+            $building=$explodedaddress[2];
+            $row['address'] = $row['area'] . ', Block: ' . $block . ', Road: ' . $road . ', Building: ' . $building . '.';
     ?>
             <div class='row'>
                 <div class='col-md-9' >
