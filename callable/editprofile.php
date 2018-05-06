@@ -18,6 +18,10 @@
             echo "Error occured!";
             die($e->getMessage());
         }
+        $disabled="";
+        if ($rowq['usertype']=="branch") {
+            $disabled="disabled";
+        }
         $pwdontmatch="";
         $invalidphone="";
         if(isset($update)){
@@ -47,43 +51,44 @@
             }
         }
         if (isset($upload)) {
-              $allowedExts = array("gif", "jpeg", "jpg", "png");
-              $temp = explode(".", $_FILES["file"]["name"]);
-              $extension = end($temp);
-              if ((($_FILES["file"]["type"] == "image/gif")
-              || ($_FILES["file"]["type"] == "image/jpeg")
-              || ($_FILES["file"]["type"] == "image/jpg")
-              || ($_FILES["file"]["type"] == "image/pjpeg")
-              || ($_FILES["file"]["type"] == "image/x-png")
-              || ($_FILES["file"]["type"] == "image/png"))
-              && ($_FILES["file"]["size"] < 1000000000)
-              && in_array($extension, $allowedExts))
-                {
-                if ($_FILES["file"]["error"] > 0)
-                  {
-                  echo "Return Code: " . $_FILES["file"]["error"] . "<br>";
-                  }
-                else {
-                    $fileName = $temp[0].".".$temp[1];
-                    $temp[0] = rand(0, 3000); //Set to random number
-                    $fileName;
-                        $temp = explode(".", $_FILES["file"]["name"]);
-                        $newfilename = $rowq['userid'] . '.' . end($temp);
-                        move_uploaded_file($_FILES["file"]["tmp_name"], $phppath."upi/" . $newfilename);
-                        try {
-                            require($phppath.'callable/connection.php');
-                            $prepu=$db->prepare("UPDATE users SET profilepicture=? WHERE userid=?");
-                            $prepu->execute(array("upi/".$newfilename, $rowq['userid']));
-                            $rowq['profilepicture']="upi/".$newfilename;
-                            $db=null;
-                        }
-                        catch (PDOException $e) {
-                            echo "Error occured!";
-                            die($e->getMessage());
-                        }
-                    }
-                  }
-                }
+
+        $allowedExts = array("gif", "jpeg", "jpg", "png");
+        $temp = explode(".", $_FILES["file"]["name"]);
+        $extension = end($temp);
+        if ((($_FILES["file"]["type"] == "image/gif")
+        || ($_FILES["file"]["type"] == "image/jpeg")
+        || ($_FILES["file"]["type"] == "image/jpg")
+        || ($_FILES["file"]["type"] == "image/pjpeg")
+        || ($_FILES["file"]["type"] == "image/x-png")
+        || ($_FILES["file"]["type"] == "image/png"))
+        && ($_FILES["file"]["size"] < 1000000000)
+        && in_array($extension, $allowedExts))
+        {
+        if ($_FILES["file"]["error"] > 0) {
+          echo "Return Code: " . $_FILES["file"]["error"] . "<br>";
+        }
+        else {
+            $fileName = $temp[0].".".$temp[1];
+            $temp[0] = rand(0, 3000); //Set to random number
+            $fileName;
+            $temp = explode(".", $_FILES["file"]["name"]);
+            $newfilename = $rowq['userid'] . '.' . end($temp);
+            move_uploaded_file($_FILES["file"]["tmp_name"], $phppath."upi/" . $newfilename);
+            try {
+                require($phppath.'callable/connection.php');
+                $prepu=$db->prepare("UPDATE users SET profilepicture=? WHERE userid=?");
+                $prepu->execute(array("upi/".$newfilename, $rowq['userid']));
+                $rowq['profilepicture']="upi/".$newfilename;
+                $db=null;
+            }
+            catch (PDOException $e) {
+                echo "Error occured!";
+                die($e->getMessage());
+            }
+        }
+        }
+    }
+
         if (isset($resetphoto)) {
             if ($rowq['profilepicture']!='upi/default.png') {
                 try {
@@ -134,21 +139,20 @@
           </div>
           <div style="text-align:center;">
               <form method="POST">
-                  <button type="submit" name="resetphoto" class="btn btn-primary">Reset Photo</button>
+                  <button type="submit" name="resetphoto" class="btn btn-primary" <?php echo $disabled ?>>Reset Photo</button>
               </form>
           </div>
         <form method="POST">
           <div class="control-group form-group">
             <div class="controls">
               <label>Name:</label>
-              <input value='<?php echo $rowq['name']; ?>' type="text" class="form-control" id="name" name="name" required data-validation-required-message="Please enter your name.">
-              
+              <input value='<?php echo $rowq['name']; ?>' type="text" class="form-control" id="name" name="name" <?php echo $disabled ?> required data-validation-required-message="Please enter your name.">
             </div>
           </div>
           <div class="control-group form-group">
             <div class="controls">
               <label>Email Address:</label>
-              <input value='<?php echo $rowq['email']; ?>' type="email" class="form-control" id="email" name="email" required data-validation-required-message="Please enter your email address.">
+              <input value='<?php echo $rowq['email']; ?>' type="email" class="form-control" id="email" name="email" <?php echo $disabled ?> required data-validation-required-message="Please enter your email address.">
             </div>
           </div>
           <?php echo "$pwdontmatch"; ?>
@@ -168,7 +172,7 @@
           <div class="control-group form-group">
             <div class="controls">
               <label>Phone Number:</label>
-              <input value='<?php echo $rowq['phone']; ?>' type="tel" class="form-control" id="phone" name="phone" required data-validation-required-message="Please enter your phone number.">
+              <input value='<?php echo $rowq['phone']; ?>' type="tel" class="form-control" id="phone" name="phone" <?php echo $disabled ?> required data-validation-required-message="Please enter your phone number.">
             </div>
           </div>
 
@@ -180,8 +184,8 @@
         <div style="text-align:center;" class="container">
             <form method="post" enctype="multipart/form-data">
                 Update Profile Picture:
-                <input class="btn btn-primary" type="file" name="file" id="fileToUpload">
-                <button class="btn btn-primary" type="submit" value="Upload Image" name="upload">Upload</button>
+                <input class="btn btn-primary" type="file" name="file" id="fileToUpload" <?php echo $disabled ?>>
+                <button class="btn btn-primary" type="submit" value="Upload Image" name="upload" <?php echo $disabled ?> >Upload</button>
             </form>
         </div>
       </div>

@@ -132,7 +132,7 @@
         </div>
         <div class="control-group form-group">
             <div style="text-align:center;" class="controls">
-                <input style="width:75%;" class="btn btn-primary" type="file" name="file" id="fileToUpload">
+                <input style="width:75%;" class="btn btn-primary" type="file" name="file" id="fileToUpload" required data-validation-required-message="Please enter restaurant image.">
             </div>
         </div>
         <div style="text-align:center;">
