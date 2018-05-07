@@ -8,7 +8,7 @@
     $branchexists="";
     $invalidphone="";
     if(isset($addbranch)){
-        $address = $area . ':' . $block . ':' . $road . ':' . $building;
+        $address = $block . ':' . $road . ':' . $building;
         try {
             require($phppath.'callable/connection.php');
             $prepq=$db->prepare("SELECT * FROM branches WHERE address=? AND restaurantid=?");
@@ -29,8 +29,8 @@
             try {
                 require($phppath.'callable/connection.php');
                 $db->beginTransaction();
-                $prep=$db->prepare("INSERT INTO branches (restaurantid,address, phone) VALUES(?, ?, ?)");
-                $prep->execute(array($_SESSION['restaurantid'], $address, $phone));
+                $prep=$db->prepare("INSERT INTO branches (restaurantid, area, address, phone) VALUES(?, ?, ?, ?)");
+                $prep->execute(array($_SESSION['restaurantid'], $area, $address, $phone));
                 $prepn=$db->prepare("SELECT name, logo FROM restaurants WHERE restaurantid=?");
                 $prepn->execute(array($_SESSION['restaurantid']));
                 $rown=$prepn->fetch(PDO::FETCH_ASSOC);

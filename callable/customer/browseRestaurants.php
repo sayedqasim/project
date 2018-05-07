@@ -37,6 +37,7 @@
             require($phppath.'callable/connection.php');
             $prepq=$db->prepare("SELECT * FROM restaurants WHERE (name LIKE ? OR description LIKE ?) OR (restaurantid IN (SELECT restaurantid FROM items WHERE title LIKE ? OR description LIKE ? OR type LIKE ?)) OR (restaurantid IN (SELECT restaurantid FROM branches WHERE area LIKE ?))");
             $prepq->execute(array_fill(0, 6,"%$searchparameter%"));
+            $preparerating=$db->prepare("SELECT SUM(rating) AS ratingsum, COUNT(rating) AS ratingcount FROM feedbackrestaurants WHERE restaurantid=?");
             $db=null;
             $rowq=$prepq->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
@@ -44,20 +45,28 @@
             die($e->getMessage());
         }
         foreach ($rowq as $row) {
+            $preparerating->execute(array($row['restaurantid']));
+            $ratingrow=$preparerating->fetch(PDO::FETCH_ASSOC);
+            $averagerating="Not Yet Rated.";
+            if ($ratingrow['ratingcount']>0) {
+                $averagerating=$ratingrow['ratingsum']/$ratingrow['ratingcount'];
+            }
     ?>
             <div class='row'>
-                <div style='text-align:center;' class='col-md-3'>
+                <div style='text-align:center;' class='col-md-2'>
                     <img style='margin: auto;' class='img-fluid rounded mb-3 mb-md-0' width='100' height='100' src="<?php echo $htmlpath.$row['logo']; ?>" alt=''>
                 </div>
                 <div class='col-md-6'>
                     <table >
                         <tr><td><b>Name:</b></td><td><?php echo $row['name']; ?></td></tr>
                         <tr><td><b>Description:</b></td><td><?php echo $row['description']; ?></td></tr>
+                        <tr><td><b>Rating Score:</b></td><td><?php if (is_numeric($averagerating)) echo number_format($averagerating, 1)."/5.0"; else echo $averagerating; ?></td></tr>
                     </table>
                 </div>
-                <div style='text-align:center;' class='col-md-3' >
+                <div style='text-align:center;' class='col-md-4' >
                     <form method="POST">
                         <button style="height: 60px;margin-top:20px;" formaction="<?php echo $htmlpath.'callable/customer/displayMenu.php' ?>" class='btn btn-primary' type='submit' name='restaurantid' value="<?php echo $row['restaurantid'] ?>">Menu</button>
+                        <button style="height: 60px;margin-top:20px;" formaction="<?php echo $htmlpath.'callable/customer/examinerestaurant.php' ?>" class='btn btn-primary' type='submit' name='restaurantid' value="<?php echo $row['restaurantid'] ?>">Examine</button>
                     </form>
                 </div>
             </div>

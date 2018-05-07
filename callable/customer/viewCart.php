@@ -16,8 +16,8 @@
     extract($_POST);
     if (isset($updaterestaurant)) {
         $index=0;
-        foreach ($_SESSION['cart'][$updaterestaurant] as $itemidupdate => $itemqtyupdate) {
-            $_SESSION['cart'][$updaterestaurant][$itemidupdate]=$qty[$index];
+        foreach ($_SESSION['cart'][$updaterestaurant]['items'] as $itemidupdate => $qtycart) {
+            $_SESSION['cart'][$updaterestaurant]['items'][$itemidupdate]=$qty[$index];
             $index++;
         }
     }
@@ -48,8 +48,11 @@
 
     <?php
     if (!isset($_SESSION['cart']) || $_SESSION['cart']==null) {
-        echo "<h2>Cart is empty.</h2>";
-        echo "<h4>How about you start filling it up!</h4><br/>";
+        echo "<div style='text-align: center;'>";
+        echo "<h3>Cart is empty.</h3>";
+        echo "<h4>How about you start filling it up!</h4>";
+        echo "<a href='".$htmlpath.'callable/customer/browseRestaurants.php'."'>Browse Restaurants!</a>";
+        echo "</div><br/>";
     }
     else {
         try {
@@ -75,7 +78,7 @@
                     </div>
                     <br/>
                 <?php
-                foreach ($itemlist as $itemidcart => $quantity) {
+                foreach ($itemlist['items'] as $itemidcart => $quantity) {
                     $prepi->execute(array($itemidcart));
                     $rsi=$prepi->fetchAll(PDO::FETCH_ASSOC);
                     $itemtotal=0;
@@ -90,18 +93,16 @@
                                 <table>
                                     <tr><td><b><?php echo $rowi['title']; ?></b></td></tr>
                                     <tr><td>1 Item:</td><td><?php echo $rowi['price']; ?> BD</td></tr>
-                                    <tr><td><?php echo $quantity ?> Item(s):</td><td><?php echo $itemtotal=$rowi['price']*$quantity; ?> BD</td></tr>
+                                    <tr><td><?php echo $quantity ?> Item(s):</td><td><?php echo number_format($itemtotal=$rowi['price']*$quantity, 3); ?> BD</td></tr>
                                 </table>
                             </div>
                             <div style='text-align:center;' class='col-md-4' >
-
-                                    <table style="margin:auto;">
-                                        <tr>
-                                            <td><input style="width: 50px;  margin-right: 5px; margin-top:10px;" type='number' name='qty[]' value="<?php echo $quantity ?>"></input></td>
-                                            <td><button style="margin-top:10px;" class='btn btn-primary btn-danger' type='submit' name='removeitem' value="<?php echo $rowr['restaurantid'].':'.$rowi['itemid'] ?>">Remove</button></td>
-                                        </tr>
-                                    </table>
-
+                                <table style="margin:auto;">
+                                    <tr>
+                                        <td><input style="width: 50px;  margin-right: 5px; margin-top:10px;" type='number' name='qty[]' min="1" value="<?php echo $quantity ?>"></input></td>
+                                        <td><button style="margin-top:10px;" class='btn btn-primary btn-danger' type='submit' name='removeitem' value="<?php echo $rowr['restaurantid'].':'.$rowi['itemid'] ?>">Remove</button></td>
+                                    </tr>
+                                </table>
                             </div>
                         </div>
                         <?php
@@ -111,8 +112,8 @@
                 ?>
                 <table style="margin:auto;">
                     <td style="text-align:center;"><button style="margin-top:10px;" class='btn btn-primary' type='submit' name='updaterestaurant' value="<?php echo $rowr['restaurantid'] ?>">Update <?php echo $rowr['name'] ?></button></td>
+                    <tr><td><button style="margin-top:10px;" formaction="<?php echo $htmlpath.'callable/customer/checkout.php' ?>" class='btn btn-primary' type='submit' name='checkoutrestaurant' value="<?php echo $rowr['restaurantid'] ?>"><?php echo $rowr['name'].' Checkout (<b>'.number_format($restauranttotal, 3) ?> BD</b>)</button></td></tr>
                 </form>
-                    <tr><td><button style="margin-top:10px;" class='btn btn-primary' type='submit' name='checkoutrestaurant' value="<?php echo $rowr['restaurantid'] ?>"><?php echo $rowr['name'].' Checkout (<b>'.$restauranttotal ?> BD</b>)</button></td></tr>
                     <tr><td style="text-align:center;"><button style="margin-top:10px;" class='btn btn-primary btn-danger' type='submit' name='removerestaurant' value="<?php echo $rowr['restaurantid'] ?>">Remove <?php echo $rowr['name'] ?></button></td></tr>
                 </table>
                 <br/>
@@ -126,7 +127,7 @@
                 ?>
                 <form method="POST">
                     <table style="margin:auto;">
-                        <tr><td><button style="margin-top:10px;" class='btn btn-primary' type='submit' name='checkoutcart' value="<?php echo $rowr['restaurantid'] ?>">Cart Checkout <?php echo '(<b>'.$carttotal ?> BD</b>)</button></td></tr>
+                        <tr><td><button style="margin-top:10px;" formaction="<?php echo $htmlpath.'callable/customer/checkout.php' ?>" class='btn btn-primary' type='submit' name='checkoutcart' value="<?php echo $rowr['restaurantid'] ?>">Cart Checkout <?php echo '(<b>'.number_format($carttotal,3) ?> BD</b>)</button></td></tr>
                         <tr><td style="text-align:center;"><button style="margin-top:10px;" class='btn btn-primary btn-danger' type='submit' name='removecart'>Empty Cart</button></td></tr>
                     </table>
                 </form>

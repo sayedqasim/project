@@ -12,7 +12,9 @@
                     'Browse Restaurants' => 'callable/customer/browseRestaurants.php',
                     'Cart' => 'callable/customer/viewCart.php',
                     'Past Orders' => 'callable/customer/pastOrders.php',
+                    'Evaluation' => 'callable/customer/evaluationview.php',
                     'Edit Profile' => 'callable/editprofile.php',
+                    'Addresses' => 'callable/customer/addaddress.php',
                     'Contact Us' => 'callable/contactus.php',
                     'Logout' => 'callable/logout.php',
                 );
