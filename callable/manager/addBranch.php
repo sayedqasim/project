@@ -35,8 +35,8 @@
                 $prepn->execute(array($_SESSION['restaurantid']));
                 $rown=$prepn->fetch(PDO::FETCH_ASSOC);
                 $nameofuser=$rown['name'].' '.$area;
-                $emailofuser=strtolower($rown['name'].'-'.$area)."@email.com";
-                $passwordofuser=strtolower($rown['name'].$area)."pass";
+                $emailofuser=$string = str_replace(' ', '', strtolower($rown['name'].'-'.$area)."@email.com");
+                $passwordofuser=str_replace(' ', '', strtolower($rown['name'].$area)."pass");
                 $prepa=$db->prepare("INSERT INTO users (name, email, password, phone, profilepicture, usertype) VALUES (?, ?, MD5(?), ?, ?,'branch')");
                 $prepa->execute(array($nameofuser, $emailofuser, $passwordofuser, $phone, $rown['logo']));
                 $db->commit();

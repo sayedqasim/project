@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 05, 2018 at 08:57 PM
+-- Generation Time: May 13, 2018 at 02:11 AM
 -- Server version: 10.1.31-MariaDB
 -- PHP Version: 7.2.3
 
@@ -41,13 +41,61 @@ CREATE TABLE `branches` (
 --
 
 INSERT INTO `branches` (`branchid`, `restaurantid`, `area`, `address`, `phone`) VALUES
-(1, 2, 'Sakhir', '1400:35:12', '17171718'),
-(2, 3, 'Hamala', '1000:200:164', '17171818'),
-(10, 1, 'Sakhir', '1414:1452:123', '17171718'),
-(11, 1, 'Souq Waqef', '124:1245:1235', '17171718'),
-(12, 1, 'Hamala', '1718:135:1548', '17171718'),
-(13, 2, 'City Center', '145:1557:135', '17171515'),
-(14, 3, 'City Center', '175:1567:156', '17171715');
+(1, 1, 'Sakhir', '1256:214:2354', '17171717'),
+(2, 1, 'Hamala', '123:466:478', '17171717'),
+(3, 1, 'Souq Waqef', '156:1568:235', '17171717'),
+(4, 2, 'City Center', '123:156:489', '17171818'),
+(5, 2, 'Sakhir', '156:456:479', '17171818'),
+(6, 3, 'Hamala', '1568:1568:135', '17171616'),
+(7, 3, 'City Center', '156:1564:145', '17171616'),
+(8, 3, 'Manama', '123:1457:139', '17171616');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `feedbackitems`
+--
+
+CREATE TABLE `feedbackitems` (
+  `orderid` int(11) NOT NULL,
+  `itemid` int(11) NOT NULL,
+  `rating` decimal(2,1) NOT NULL,
+  `comment` varchar(150) NOT NULL,
+  `response` varchar(150) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `feedbackitems`
+--
+
+INSERT INTO `feedbackitems` (`orderid`, `itemid`, `rating`, `comment`, `response`) VALUES
+(2, 4, '4.9', 'Just how I like it.', 'Customized to your liking..'),
+(2, 5, '5.0', 'Da big king!', 'You are the king!'),
+(2, 6, '4.8', 'Fish is awesome!', 'Awaiting response..'),
+(3, 4, '3.9', 'Was a little bit cold this time..', 'Awaiting response..'),
+(3, 5, '4.9', 'Greatness in a burger..', 'Awaiting response..');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `feedbackrestaurants`
+--
+
+CREATE TABLE `feedbackrestaurants` (
+  `orderid` int(11) NOT NULL,
+  `restaurantid` int(11) NOT NULL,
+  `rating` decimal(2,1) NOT NULL,
+  `comment` varchar(150) NOT NULL,
+  `response` varchar(150) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `feedbackrestaurants`
+--
+
+INSERT INTO `feedbackrestaurants` (`orderid`, `restaurantid`, `rating`, `comment`, `response`) VALUES
+(2, 3, '5.0', 'Superb, as usual!', 'Our man!'),
+(3, 3, '4.4', 'Where kings feed..', 'You are definitely our favorite..!');
 
 -- --------------------------------------------------------
 
@@ -60,7 +108,7 @@ CREATE TABLE `items` (
   `restaurantid` int(11) NOT NULL,
   `title` varchar(20) NOT NULL,
   `description` varchar(100) NOT NULL,
-  `price` float NOT NULL,
+  `price` decimal(6,3) NOT NULL,
   `image` varchar(20) NOT NULL,
   `type` varchar(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -70,28 +118,15 @@ CREATE TABLE `items` (
 --
 
 INSERT INTO `items` (`itemid`, `restaurantid`, `title`, `description`, `price`, `image`, `type`) VALUES
-(1, 1, 'Mighty Zinger', 'KFC’s Spicy Zinger Recipe, lettuce, cheese, spicy.', 1.5, 'rii/1/1.png', 'Burger:Chicken:Crispy:Spicy:Regular'),
-(2, 1, 'Zinger Shrimp', 'Zinger shrimp sandwich with fries & soft drink.', 2.1, 'rii/1/2.png', 'Spicy:Shrimp:Sub:Combo'),
-(3, 1, 'Twister', 'Crispy chicken strips, diced tomatoes.', 0.8, 'rii/1/3.png', 'Chicken:Spicy:Regular:Wrap'),
-(4, 3, 'Whopper', 'Burger King Signature, Lettuce, tomato, pickles.', 2.8, 'rii/3/4.png', 'American:Burger:Beef'),
-(5, 3, 'Big King', 'Double Whopper with Big King sauce.', 3.1, 'rii/3/5.png', 'Beef:Burger:American'),
-(6, 3, 'Fish Royale', 'Mayo, lettuce, breaded fish.', 2.5, 'rii/3/6.png', 'Fish:Burger:Sea'),
-(7, 2, 'Double Deluxe', 'Two 1/4 lb. Patties Stacked with Your Choice of Cheese.', 3.1, 'rii/2/7.png', 'Burger:American:Beef:Double'),
-(8, 2, 'Three Cheese', 'Cheddar, Provolone, Swiss Cheese.', 3, 'rii/2/8.png', 'Beef:American:Burger'),
-(9, 2, 'The Works', 'Smokehouse Bacon, American Cheese, Grilled Mushrooms.', 3.1, 'rii/2/9.png', 'Burger:American:Beef');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `itemsfeedback`
---
-
-CREATE TABLE `itemsfeedback` (
-  `orderid` int(11) NOT NULL,
-  `itemid` int(11) NOT NULL,
-  `rating` decimal(2,1) NOT NULL,
-  `comment` varchar(150) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+(1, 1, 'Mighty Zinger', 'KFC’s Spicy Zinger Recipe, lettuce, cheese, spicy.', '1.500', 'rii/1/1.png', 'Burger:Chicken:Crispy:Spicy:Regular'),
+(2, 1, 'Zinger Shrimp', 'Zinger shrimp sandwich with fries & soft drink.', '2.100', 'rii/1/2.png', 'Spicy:Shrimp:Sub:Combo'),
+(3, 1, 'Twister', 'Crispy chicken strips, diced tomatoes.', '0.800', 'rii/1/3.png', 'Chicken:Spicy:Regular:Wrap'),
+(4, 3, 'Whopper', 'Burger King Signature, Lettuce, tomato, pickles.', '2.800', 'rii/3/4.png', 'American:Burger:Beef'),
+(5, 3, 'Big King', 'Double Whopper with Big King sauce.', '3.100', 'rii/3/5.png', 'Beef:Burger:American'),
+(6, 3, 'Fish Royale', 'Mayo, lettuce, breaded fish.', '2.500', 'rii/3/6.png', 'Fish:Burger:Sea'),
+(7, 2, 'Double Deluxe', 'Two 1/4 lb. Patties Stacked with Your Choice of Cheese.', '3.100', 'rii/2/7.png', 'Burger:American:Beef:Double'),
+(8, 2, 'Three Cheese', 'Cheddar, Provolone, Swiss Cheese.', '3.500', 'rii/2/8.png', 'Beef:American:Burger'),
+(9, 2, 'The Works', 'Smokehouse Bacon, American Cheese, Grilled Mushrooms.', '3.100', 'rii/2/9.png', 'Burger:American:Beef');
 
 -- --------------------------------------------------------
 
@@ -109,7 +144,8 @@ CREATE TABLE `orderaddress` (
 --
 
 INSERT INTO `orderaddress` (`orderid`, `addressid`) VALUES
-(7, 12);
+(1, 1),
+(3, 3);
 
 -- --------------------------------------------------------
 
@@ -128,12 +164,16 @@ CREATE TABLE `orderitems` (
 --
 
 INSERT INTO `orderitems` (`orderid`, `itemid`, `quantity`) VALUES
-(7, 1, 3),
-(7, 2, 1),
-(8, 7, 3),
-(8, 8, 1),
-(9, 5, 1),
-(9, 6, 2);
+(1, 1, 2),
+(1, 2, 2),
+(1, 3, 1),
+(2, 4, 1),
+(2, 5, 2),
+(2, 6, 1),
+(3, 4, 1),
+(3, 5, 1),
+(4, 1, 2),
+(4, 3, 2);
 
 -- --------------------------------------------------------
 
@@ -156,9 +196,10 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`orderid`, `branchid`, `userid`, `status`, `type`, `payment`, `stamp`) VALUES
-(7, 11, 4, 'Pending', 'Delivery', 'approved', '2018-05-04 12:13:36'),
-(8, 13, 4, 'Pending', 'Pickup', 'approved', '2018-05-04 12:13:36'),
-(9, 14, 4, 'Pending', 'Pickup', 'approved', '2018-05-04 12:13:36');
+(1, 2, 4, 'Pending', 'Delivery', 'cash', '2018-05-01 13:53:58'),
+(2, 8, 4, 'Fulfilled', 'Pickup', 'cash', '2018-05-06 17:54:45'),
+(3, 8, 4, 'Fulfilled', 'Delivery', 'cash', '2018-05-07 18:57:41'),
+(4, 2, 4, 'Pending', 'Pickup', 'cash', '2018-05-13 08:59:42');
 
 -- --------------------------------------------------------
 
@@ -208,19 +249,6 @@ INSERT INTO `restaurants` (`restaurantid`, `name`, `logo`, `description`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `restaurantsfeedback`
---
-
-CREATE TABLE `restaurantsfeedback` (
-  `orderid` int(11) NOT NULL,
-  `restaurantid` int(11) NOT NULL,
-  `rating` decimal(2,1) NOT NULL,
-  `comment` varchar(150) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `useraddresses`
 --
 
@@ -236,7 +264,9 @@ CREATE TABLE `useraddresses` (
 --
 
 INSERT INTO `useraddresses` (`addressid`, `userid`, `area`, `address`) VALUES
-(12, 4, 'Manama', '1523:457:123');
+(1, 4, 'Riffa', '1649:354:4538'),
+(2, 4, 'Hamala', '1574:1432:145'),
+(3, 4, 'Manama', '1523:457:123');
 
 -- --------------------------------------------------------
 
@@ -246,8 +276,8 @@ INSERT INTO `useraddresses` (`addressid`, `userid`, `area`, `address`) VALUES
 
 CREATE TABLE `users` (
   `userid` int(11) NOT NULL,
-  `name` varchar(20) NOT NULL,
-  `email` varchar(30) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL,
   `password` varchar(32) NOT NULL,
   `phone` varchar(15) NOT NULL,
   `profilepicture` varchar(20) NOT NULL,
@@ -263,20 +293,16 @@ INSERT INTO `users` (`userid`, `name`, `email`, `password`, `phone`, `profilepic
 (2, 'admin', 'admin@admin.com', '25e4ee4e9229397b6b17776bfceaf8e7', '0097369998888', 'upi/default.png', 'admin'),
 (3, 'manager', 'manager@manager.com', '3fd7488b6fd40f33c5a8e857b6a944aa', '66447755', 'upi/default.png', 'manager'),
 (4, 'customer', 'customer@customer.com', '0a1a1c22b9cdf22c736a6f5f5b4a4f01', '0097369996666', 'upi/default.png', 'customer'),
-(5, 'Ahmed', 'ahmedali@email.com', 'a050d36a8e5dcaedc99dbb775c7790e2', '66447755', 'upi/default.png', 'manager'),
-(6, 'Faisal Jasim', 'faisaljasim@email.com', '2aa92a5dca2abee6e6634c5871b0b75a', '66887755', 'upi/default.png', 'manager'),
-(7, 'KFC Sakhir', 'kfc-sakhir@email.com', 'ac55c5d19a47f397631ddc82dc9e66b7', '17171718', 'rli/1.png', 'branch'),
-(8, 'KFC Souq Waqef', 'kfc-souq waqef@email.com', '8e7086419a50cabbefc7e9e624bee69c', '17171718', 'rli/1.png', 'branch'),
-(9, 'KFC Hamala', 'kfc-hamala@email.com', 'b8f1a13e9d7b7e3c4c12ee3e13ec9398', '17171718', 'rli/1.png', 'branch'),
-(10, 'Fuddruckers City Cen', 'fuddruckers-city center@email.', 'f8390bdef9bf3cd32700dc863031f476', '17177777', 'rli/2.png', 'branch'),
-(11, 'Burger King Hamala', 'burger king-hamala@email.com', '8cc1b5128f7bfbe4f99ae937c960723f', '17171717', 'rli/3.png', 'branch'),
-(12, 'Burger King Hamala', 'burger king-hamala@email.com', '8cc1b5128f7bfbe4f99ae937c960723f', '17171717', 'rli/3.png', 'branch'),
-(13, 'Burger King City Cen', 'burger king-city center@email.', '53b231955e7666875da120d446a44a1b', '17171717', 'rli/3.png', 'branch'),
-(14, 'KFC Sakhir', 'kfc-sakhir@email.com', 'ac55c5d19a47f397631ddc82dc9e66b7', '17171718', 'rli/1.png', 'branch'),
-(15, 'KFC Souq Waqef', 'kfc-souq waqef@email.com', '8e7086419a50cabbefc7e9e624bee69c', '17171718', 'rli/1.png', 'branch'),
-(16, 'KFC Hamala', 'kfc-hamala@email.com', 'b8f1a13e9d7b7e3c4c12ee3e13ec9398', '17171718', 'rli/1.png', 'branch'),
-(17, 'Fuddruckers City Cen', 'fuddruckers-city center@email.', 'f8390bdef9bf3cd32700dc863031f476', '17171515', 'rli/2.png', 'branch'),
-(18, 'Burger King City Cen', 'burger king-city center@email.', '53b231955e7666875da120d446a44a1b', '17171715', 'rli/3.png', 'branch');
+(5, 'Ahmed Ali', 'ahmedali@email.com', 'a050d36a8e5dcaedc99dbb775c7790e2', '36363535', 'upi/default.png', 'manager'),
+(6, 'Faisal Jasim', 'faisaljasim@email.com', '2aa92a5dca2abee6e6634c5871b0b75a', '35353636', 'upi/default.png', 'manager'),
+(7, 'KFC Sakhir', 'kfc-sakhir@email.com', 'ac55c5d19a47f397631ddc82dc9e66b7', '17171717', 'rli/1.png', 'branch'),
+(8, 'KFC Hamala', 'kfc-hamala@email.com', 'b8f1a13e9d7b7e3c4c12ee3e13ec9398', '17171717', 'rli/1.png', 'branch'),
+(9, 'KFC Souq Waqef', 'kfc-souqwaqef@email.com', '6e510f51da7f343dc6e0d79fd5810574', '17171717', 'rli/1.png', 'branch'),
+(10, 'Fuddruckers City Center', 'fuddruckers-citycenter@email.com', 'fd7eeea6e603f3a76bde99b0605b5144', '17171818', 'rli/2.png', 'branch'),
+(11, 'Fuddruckers Sakhir', 'fuddruckers-sakhir@email.com', 'e4d1f074f1cba65cae3bbc28f0fbc55e', '17171818', 'rli/2.png', 'branch'),
+(12, 'Burger King Hamala', 'burgerking-hamala@email.com', '88b73c6dfa073387c42b690ca3200f2f', '17171616', 'rli/3.png', 'branch'),
+(13, 'Burger King City Center', 'burgerking-citycenter@email.com', '4136415936ff1140c13676ad259a804d', '17171616', 'rli/3.png', 'branch'),
+(14, 'Burger King Manama', 'burgerking-manama@email.com', 'e75bef2f8b38ca600dd4644f1e83a841', '17171616', 'rli/3.png', 'branch');
 
 --
 -- Indexes for dumped tables
@@ -290,18 +316,25 @@ ALTER TABLE `branches`
   ADD KEY `restaurantid` (`restaurantid`);
 
 --
+-- Indexes for table `feedbackitems`
+--
+ALTER TABLE `feedbackitems`
+  ADD PRIMARY KEY (`orderid`,`itemid`),
+  ADD KEY `itemid` (`itemid`);
+
+--
+-- Indexes for table `feedbackrestaurants`
+--
+ALTER TABLE `feedbackrestaurants`
+  ADD PRIMARY KEY (`orderid`,`restaurantid`),
+  ADD KEY `restaurantid` (`restaurantid`);
+
+--
 -- Indexes for table `items`
 --
 ALTER TABLE `items`
   ADD PRIMARY KEY (`itemid`,`restaurantid`,`title`),
   ADD KEY `restaurantid` (`restaurantid`);
-
---
--- Indexes for table `itemsfeedback`
---
-ALTER TABLE `itemsfeedback`
-  ADD PRIMARY KEY (`orderid`,`itemid`),
-  ADD KEY `itemid` (`itemid`);
 
 --
 -- Indexes for table `orderaddress`
@@ -340,13 +373,6 @@ ALTER TABLE `restaurants`
   ADD UNIQUE KEY `name` (`name`);
 
 --
--- Indexes for table `restaurantsfeedback`
---
-ALTER TABLE `restaurantsfeedback`
-  ADD PRIMARY KEY (`orderid`,`restaurantid`),
-  ADD KEY `restaurantid` (`restaurantid`);
-
---
 -- Indexes for table `useraddresses`
 --
 ALTER TABLE `useraddresses`
@@ -367,7 +393,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `branches`
 --
 ALTER TABLE `branches`
-  MODIFY `branchid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `branchid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `items`
@@ -379,7 +405,7 @@ ALTER TABLE `items`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `orderid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `orderid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `restaurants`
@@ -391,13 +417,13 @@ ALTER TABLE `restaurants`
 -- AUTO_INCREMENT for table `useraddresses`
 --
 ALTER TABLE `useraddresses`
-  MODIFY `addressid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `addressid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Constraints for dumped tables
@@ -410,17 +436,24 @@ ALTER TABLE `branches`
   ADD CONSTRAINT `branches_ibfk_1` FOREIGN KEY (`restaurantid`) REFERENCES `restaurants` (`restaurantid`);
 
 --
+-- Constraints for table `feedbackitems`
+--
+ALTER TABLE `feedbackitems`
+  ADD CONSTRAINT `feedbackitems_ibfk_1` FOREIGN KEY (`itemid`) REFERENCES `items` (`itemid`),
+  ADD CONSTRAINT `feedbackitems_ibfk_2` FOREIGN KEY (`orderid`) REFERENCES `orders` (`orderid`);
+
+--
+-- Constraints for table `feedbackrestaurants`
+--
+ALTER TABLE `feedbackrestaurants`
+  ADD CONSTRAINT `feedbackrestaurants_ibfk_1` FOREIGN KEY (`orderid`) REFERENCES `orders` (`orderid`),
+  ADD CONSTRAINT `feedbackrestaurants_ibfk_2` FOREIGN KEY (`restaurantid`) REFERENCES `restaurants` (`restaurantid`);
+
+--
 -- Constraints for table `items`
 --
 ALTER TABLE `items`
   ADD CONSTRAINT `items_ibfk_1` FOREIGN KEY (`restaurantid`) REFERENCES `restaurants` (`restaurantid`);
-
---
--- Constraints for table `itemsfeedback`
---
-ALTER TABLE `itemsfeedback`
-  ADD CONSTRAINT `itemsfeedback_ibfk_1` FOREIGN KEY (`itemid`) REFERENCES `items` (`itemid`),
-  ADD CONSTRAINT `itemsfeedback_ibfk_2` FOREIGN KEY (`orderid`) REFERENCES `orders` (`orderid`);
 
 --
 -- Constraints for table `orderaddress`
@@ -442,13 +475,6 @@ ALTER TABLE `orderitems`
 ALTER TABLE `orders`
   ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`branchid`) REFERENCES `branches` (`branchid`),
   ADD CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`userid`) REFERENCES `users` (`userid`);
-
---
--- Constraints for table `restaurantsfeedback`
---
-ALTER TABLE `restaurantsfeedback`
-  ADD CONSTRAINT `restaurantsfeedback_ibfk_1` FOREIGN KEY (`orderid`) REFERENCES `orders` (`orderid`),
-  ADD CONSTRAINT `restaurantsfeedback_ibfk_2` FOREIGN KEY (`restaurantid`) REFERENCES `restaurants` (`restaurantid`);
 
 --
 -- Constraints for table `useraddresses`

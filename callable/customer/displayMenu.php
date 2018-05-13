@@ -70,8 +70,8 @@
         foreach ($rowq as $row) {
             if (isset($itemid))
                 if ($row['itemid']==$itemid)
-                    if (isset($_SESSION['cart'][$row['restaurantid']][$itemid]))
-                        $_SESSION['cart'][$row['restaurantid']][$itemid]+=$qty;
+                    if (isset($_SESSION['cart'][$row['restaurantid']]['items'][$itemid]))
+                        $_SESSION['cart'][$row['restaurantid']]['items'][$itemid]+=$qty;
                     else {
                         $_SESSION['cart'][$row['restaurantid']]['items'][$itemid]=$qty;
                         $_SESSION['cart'][$row['restaurantid']]['selectedbranch']="0:Not Selected";

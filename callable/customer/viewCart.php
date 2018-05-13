@@ -25,10 +25,17 @@
         $temp=explode(':', $removeitem);
         $restaurantiddelete=(int)$temp[0];
         $itemiddelete=(int)$temp[1];
-        unset($_SESSION['cart'][$restaurantiddelete][$itemiddelete]);
+        unset($_SESSION['cart'][$restaurantiddelete]['items'][$itemiddelete]);
+        if (count($_SESSION['cart'][$restaurantiddelete]['items'])==0)
+            unset($_SESSION['cart'][$restaurantiddelete]);
+        if (count($_SESSION['cart'])==0)
+            unset($_SESSION['cart'][$restaurantiddelete]);
     }
-    if (isset($removerestaurant))
+    if (isset($removerestaurant)){
         unset($_SESSION['cart'][$removerestaurant]);
+        if (count($_SESSION['cart'])==0)
+            unset($_SESSION['cart'][$restaurantiddelete]);
+    }
     if (isset($removecart))
         unset($_SESSION['cart']);
 ?>
